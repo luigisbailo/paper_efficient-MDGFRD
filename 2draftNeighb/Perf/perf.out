@@ -1,0 +1,32 @@
+260
+0.01
+0.01
+0.1
+10000000
+9
+Minimal aGF shell: 0.284605	0.284605
+Minimal GF1 shell:  2.5	2.5
+Minimal GF2 shell:  3.75	6.25
+
+ERROR: distance in getDist
+ERROR: distance in getDist
+ERROR: distance in getDist
+ERROR: distance in getDist
+ERROR: distance in getDist
+ERROR: distance in getDist
+ERROR: distance in getDist
+ERROR: distance in getDist
+ERROR: distance in getDist
+ERROR: distance in getDist
+1000	271.76234	0.00000	14479.51817	0.30355	0.00000	0.00000
+10000	229768.77537	0.00000	260894.77822	0.00000	0.00000	0.00000
+
+1000	800169.9	0.0	1136.4	0.0
+10000	73072750.0	0.0	0.0	0.0
+
+1000	19645273.0	0.0	12609.1	0.0
+10000	868532307.0	0.0	0.0	0.0
+
+1000	144004363.6	0.0	265710.5	0.0
+10000	2020876700.0	0.0	0.0	0.0
+
