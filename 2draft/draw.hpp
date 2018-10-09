@@ -18,9 +18,9 @@ double drawTimeNewt ( double b, double D, double xi ) {
 
     count++;
     if (count > MAX_ITERATIONS){
-      cout << setprecision (15);
-      cout << "Error: finding the root of S was not possible for:" << endl;
-      cout << "b = " << b << "\t D = " << D << "\t xi = " << xi << endl;     
+      std::cout << std::setprecision (15);
+      std::cout << "Error: finding the root of S was not possible for:" << std::endl;
+      std::cout << "b = " << b << "\t D = " << D << "\t xi = " << xi << std::endl;
       return t;
       // exit (EXIT_FAILURE);
     }
@@ -70,9 +70,9 @@ double drawPosNewt ( double t, double b, double D, double xi ) {
       // cout << r << "\t" << P << "\t" << P-xi <<endl;
       count++;
       if (count > MAX_ITERATIONS){
-        cout << setprecision (15);
-        cout << "Error: finding the root of P was not possible for:" << endl;
-        cout << "t = " << t << "\tb = " << b << "\t D = " << D << "\t xi = " << xi << endl;     
+        std::cout << std::setprecision (15);
+        std::cout << "Error: finding the root of P was not possible for:" << std::endl;
+        std::cout << "t = " << t << "\tb = " << b << "\t D = " << D << "\t xi = " << xi << std::endl;
         // exit (EXIT_FAILURE);
         return r;
       }
@@ -109,9 +109,9 @@ double drawPosPQbis ( double t, double tau, double b, double D, double xi ) {
 
     count++;
     if (count > MAX_ITERATIONS){
-      cout << setprecision (15);
-      cout << "Error: finding the root of P was not possible for:" << endl;
-      cout << "t = " << t << "\t b = " << b << "\t D = " << D << "\t xi = " << xi << endl;     
+      std::cout << std::setprecision (15);
+      std::cout << "Error: finding the root of P was not possible for:" << std::endl;
+      std::cout << "t = " << t << "\t b = " << b << "\t D = " << D << "\t xi = " << xi << std::endl;
       exit (EXIT_FAILURE);
     }
 

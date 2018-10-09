@@ -71,7 +71,7 @@ double getR_aGF ( particle *particles, int *particleList, double *shells, double
       } 
 
 
-      shells[j] = min (Rshell[0],Rshell[1]);
+      shells[j] = std::min (Rshell[0],Rshell[1]);
       if (particles[jPart].tau_exit-particles[iPart].time<shells[j]*shells[j]/6/Dij[0] ){
 	shells[j] = shells[j] - particles[jPart].shellRed;
 	}
@@ -86,7 +86,7 @@ double getR_aGF ( particle *particles, int *particleList, double *shells, double
 
 // cout << "Min elem: " << *min_element( shells+1,shells+N ) << endl;
 
-return *min_element( shells+1,shells+N );
+return *std::min_element( shells+1,shells+N );
 
 }
 
@@ -126,7 +126,7 @@ double getR_GF ( particle *particles, int *particleList, double *shells, double 
   }
 
 
-  return *min_element( shells+1,shells+N);
+  return *std::min_element( shells+1,shells+N);
 
 }
 

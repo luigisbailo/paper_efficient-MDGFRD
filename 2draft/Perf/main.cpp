@@ -1,8 +1,5 @@
 //TO COMPILE: g++ -std=c++11 main.cpp -o main -lgsl -lgslcblas -lm
 
-using namespace std;
-#define print(x) cout << x << endl;
-
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_roots.h>
@@ -18,7 +15,6 @@ using namespace std;
 #include <cstring>
 #include <sstream>
 
-using namespace std;
 using namespace std::chrono;
 
 
@@ -42,51 +38,42 @@ using namespace std::chrono;
 int main ( int argc, char *argv[] ) {         
 
   int nL = 7;
-  double L[nL]={2500,1150,545,255,118,55,25};
- // int nL=1;
- // double L[nL]={55};
+  double L[nL];
+    L[0]=2500;
+    L[1]=1150;
+    L[2]=545;
+    L[3]=255;
+    L[4]=118;
+    L[5]=55;
+    L[6]=25;
+    int Nsamples[nL];
+    Nsamples[0]=1000;
+    Nsamples[0]=1000;
+    Nsamples[0]=1000;
+    Nsamples[0]=100;
+    Nsamples[0]=100;
+    Nsamples[0]=10;
+    Nsamples[0]=1;
 
-  double D_A;
-  double D_B;
-  double R_A;
-  double R_B;
-  double tau_bm;
+  double D_A=0.01;
+  double D_B=0.01;
+  double R_A=2.5;
+  double R_B=2.5;
+  double tau_bm=0.1;
   long int nINTsteps;
-  int POWsteps;
+  int POWsteps=7;
   const int N = 10; 
   const int N_A = 5;
   const int N_B = 5;
   double alpha = 9.;
   int BMsamples = 2;
 
-  int Nsamples[nL]={1000,1000,1000,100,100,10,1};
-  // int Nsamples [nL] = {100};
 
-  stringstream convert_DA (argv[1]); 
-  stringstream convert_RA (argv[2]); 
-  stringstream convert_DB (argv[3]); 
-  stringstream convert_RB (argv[4]); 
-  stringstream convert_TAUBM (argv[5]); 
-  stringstream convert_POWSTEPS (argv[6]); 
-
-
-  if (!(convert_DA >> D_A ))
-    exit (EXIT_FAILURE);  
-  if (!(convert_RA >> R_A ))
-    exit (EXIT_FAILURE);  
-  if (!(convert_DB >> D_B ))
-    exit (EXIT_FAILURE);  
-  if (!(convert_RB >> R_B ))
-    exit (EXIT_FAILURE);  
-  if (!(convert_TAUBM >> tau_bm ))
-    exit (EXIT_FAILURE);  
-  if (!(convert_POWSTEPS >> POWsteps ))
-    exit (EXIT_FAILURE);  
 
   high_resolution_clock::time_point t2,t1;
   double t12, avT;
 
-  nINTsteps = pow (10,POWsteps);
+  nINTsteps = int(pow (10,POWsteps));
   const double Tsim = nINTsteps*tau_bm;
 
   int stat [3];
@@ -104,16 +91,16 @@ int main ( int argc, char *argv[] ) {
   double stat_BM [nL][BMsamples];
   double arrT [6][nL][Nsamples[0]*BMsamples];
 
-  cout << D_A << endl;
-  cout << D_B << endl;
-  cout << tau_bm << endl;
-  cout << nINTsteps << endl;
-  cout << alpha << endl;
-  cout << "Expected squared distance per particle: " << 6*Tsim*(N_A*D_A+N_B*D_B)/N << endl;
-  cout << "Minimal aGF shell: " << alpha*sqrt(D_A*tau_bm) << "\t" << alpha*sqrt(D_B*tau_bm) << endl;
-  cout << "Minimal GF1 shell:  " << 1*R_A << "\t" << 1*R_B << endl;
-  cout << "Minimal GF2 shell:  " << 1.5*R_A << "\t" << 2.5*R_B << endl;
-  cout << endl;
+  std::cout << D_A << std::endl;
+    std::cout << D_B << std::endl;
+    std::cout << tau_bm << std::endl;
+    std::cout << nINTsteps << std::endl;
+    std::cout << alpha << std::endl;
+    std::cout << "Expected squared distance per particle: " << 6*Tsim*(N_A*D_A+N_B*D_B)/N << std::endl;
+    std::cout << "Minimal aGF shell: " << alpha*sqrt(D_A*tau_bm) << "\t" << alpha*sqrt(D_B*tau_bm) << std::endl;
+    std::cout << "Minimal GF1 shell:  " << 1*R_A << "\t" << 1*R_B << std::endl;
+    std::cout << "Minimal GF2 shell:  " << 1.5*R_A << "\t" << 2.5*R_B << std::endl;
+    std::cout << std::endl;
 
 
   for ( int count1=0; count1 < BMsamples; count1 ++){
@@ -377,36 +364,36 @@ int main ( int argc, char *argv[] ) {
 
 
 
-  cout << setprecision(5)<< fixed; 
+    std::cout << std::setprecision(5)<< std::fixed;
 
   for ( int l=0; l<nL; l++){
 
-    cout << int(L[l]) << "\t" << arrTav [0][l] << "\t" << arrTav[1][l] << "\t" << arrTav[2][l] << "\t" << arrTav[3][l] << "\t" << arrTav[4][l] << "\t" << arrTav[5][l];    
-    cout << "\t" << arrTsd [0][l] << "\t" << arrTsd[1][l] << "\t" << arrTsd[2][l] << "\t" << arrTsd[3][l] << "\t" << arrTsd[4][l] << "\t" << arrTsd[5][l] << endl;
+      std::cout << int(L[l]) << "\t" << arrTav [0][l] << "\t" << arrTav[1][l] << "\t" << arrTav[2][l] << "\t" << arrTav[3][l] << "\t" << arrTav[4][l] << "\t" << arrTav[5][l];
+      std::cout << "\t" << arrTsd [0][l] << "\t" << arrTsd[1][l] << "\t" << arrTsd[2][l] << "\t" << arrTsd[3][l] << "\t" << arrTsd[4][l] << "\t" << arrTsd[5][l] << std::endl;
 
   }
-  cout << endl;
+    std::cout <<std:: endl;
 
-  cout << setprecision(1); 
+    std::cout << std::setprecision(1);
 
   for ( int l=0; l<nL; l++){
-    cout << int(L[l]) << "\t" << stat_aGF1av[0][l] << "\t" << stat_aGF2av[0][l] << "\t" << stat_hybGFav[0][l] << "\t" << stat_GF1av[0][l] << "\t" << stat_GF2av[0][l];
-    cout << "\t" << stat_aGF1sd[0][l] << "\t" << stat_aGF2sd[0][l] << "\t" <<stat_hybGFsd[0][l] << "\t" << stat_GF1sd[0][l] << "\t" << stat_GF2sd[0][l] << endl;
+      std::cout << int(L[l]) << "\t" << stat_aGF1av[0][l] << "\t" << stat_aGF2av[0][l] << "\t" << stat_hybGFav[0][l] << "\t" << stat_GF1av[0][l] << "\t" << stat_GF2av[0][l];
+      std::cout << "\t" << stat_aGF1sd[0][l] << "\t" << stat_aGF2sd[0][l] << "\t" <<stat_hybGFsd[0][l] << "\t" << stat_GF1sd[0][l] << "\t" << stat_GF2sd[0][l] << std::endl;
   }
-  cout << endl;
+    std::cout << std::endl;
 
   for ( int l=0; l<nL; l++){
-    cout << int(L[l]) << "\t" << stat_aGF1av[1][l]<< "\t" << stat_aGF2av[1][l] << "\t" << stat_hybGFav[1][l] << "\t" << stat_GF1av[1][l]<< "\t" << stat_GF2av[1][l];
-    cout << "\t" << stat_aGF1sd [1][l] << "\t" << stat_aGF2sd [1][l] << "\t" << stat_hybGFsd [1][l] << "\t" << stat_GF1sd[1][l] << "\t" << stat_GF2sd[1][l] << endl;
+      std::cout << int(L[l]) << "\t" << stat_aGF1av[1][l]<< "\t" << stat_aGF2av[1][l] << "\t" << stat_hybGFav[1][l] << "\t" << stat_GF1av[1][l]<< "\t" << stat_GF2av[1][l];
+      std::cout << "\t" << stat_aGF1sd [1][l] << "\t" << stat_aGF2sd [1][l] << "\t" << stat_hybGFsd [1][l] << "\t" << stat_GF1sd[1][l] << "\t" << stat_GF2sd[1][l] << std::endl;
   }
-  cout << endl;
+    std::cout << std::endl;
 
 
   for ( int l=0; l<nL; l++){
-    cout << int(L[l]) << "\t" << stat_aGF1av[2][l] << "\t" << stat_aGF2av[2][l] << "\t" << stat_hybGFav[2][l] << "\t" << stat_GF1av[2][l] << "\t" << stat_GF2av[2][l];
-    cout << "\t" << stat_aGF1sd [2][l] << "\t" << stat_aGF2sd [2][l] << "\t"  << stat_hybGFsd [2][l] << "\t" << stat_GF1sd[2][l] << "\t" << stat_GF2sd[2][l] << endl;
+      std::cout << int(L[l]) << "\t" << stat_aGF1av[2][l] << "\t" << stat_aGF2av[2][l] << "\t" << stat_hybGFav[2][l] << "\t" << stat_GF1av[2][l] << "\t" << stat_GF2av[2][l];
+      std::cout << "\t" << stat_aGF1sd [2][l] << "\t" << stat_aGF2sd [2][l] << "\t"  << stat_hybGFsd [2][l] << "\t" << stat_GF1sd[2][l] << "\t" << stat_GF2sd[2][l] << std::endl;
   }
-  cout << endl;
+    std::cout << std::endl;
 
 
 

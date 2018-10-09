@@ -1,12 +1,12 @@
 void printPos ( particle *particles, int *partList, int N){
 
-  cout <<"Part.\t"<<"Time\t"<<"Tau\t"<<"Shell\t"
+	std::cout <<"Part.\t"<<"Time\t"<<"Tau\t"<<"Shell\t"
        <<"x\t"<<"y\t"<<"z\t"
        <<"x_ex\t"<<"y_ex\t"<<"z_ex\t"
        <<"Radius\t" <<"BURST\n";
 
   for (int count=0; count<N; count++){
-    cout <<particles[partList[count]].label << "\t"
+	  std::cout <<particles[partList[count]].label << "\t"
 	 <<particles[partList[count]].time << "\t" 
 	 <<particles[partList[count]].tau_exit<<"\t"
 	 <<particles[partList[count]].shell<<"\t"
@@ -57,7 +57,7 @@ void printDist_per (particle *particles, int *partList, int N, double L ) {
 	double distNext = sqrt(dist2next_per(&particles[partList[0]],&particles[partList[n]],L));
 	double ishell = particles[partList[0]].shell;
 	double jshell = particles[partList[n]].shell;
-	cout << "R "<<particles[partList[0]].label<< "-" <<particles[partList[n]].label<<" = "<< dist << "\t"
+	  std::cout << "R "<<particles[partList[0]].label<< "-" <<particles[partList[n]].label<<" = "<< dist << "\t"
 	     << "R - shells -inter = "<<dist - (ishell+jshell+particles[partList[n]].radius+particles[partList[0]].radius) << "\t"
 	     << "Rnext -inter = "<<distNext - (particles[partList[n]].radius+particles[partList[0]].radius) 
 	     << "\n";  
@@ -71,7 +71,7 @@ void printDist_per (particle *particles, int *partList, int N, double L ) {
 void print_shell ( particle *particles, int N){
   
   for (int i=0; i<N; i++){
-    cout << "Particle " << i << "\tDiff = " << particles[i].Diff 
+	  std::cout << "Particle " << i << "\tDiff = " << particles[i].Diff
 	 << "\tR_bm = " << particles[i].R_bd
 	 << "\tShell = " << particles[i].shell 
 	 << "\tTau = " << particles[i].tau_exit << "\n";

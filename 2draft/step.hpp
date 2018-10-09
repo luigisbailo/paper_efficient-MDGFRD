@@ -95,9 +95,9 @@ void synchPart_P_aGF ( particle *particles, int *partList, gsl_rng *r, int N, do
       
       if ( Tsynch < particles[n].time ){
 
-         cout << "ERROR: synch" << "\n";
+        std::cout << "ERROR: synch" << "\n";
          // exit (EXIT_FAILURE);
-         cout << setprecision(5);
+        std::cout << std::setprecision(5);
          printPos_per ( particles, partList, N );
 
       }
@@ -154,8 +154,8 @@ void synchPart_P_GF ( particle *particles, int *partList, gsl_rng *r, int N, dou
       
       if ( Tsynch < particles[n].time ){
 
-         cout << "ERROR: synch" << "\n";
-         cout << setprecision(5);
+        std::cout << "ERROR: synch" << "\n";
+        std::cout << std::setprecision(5);
     printPos_per ( particles, partList, N );
          // exit (EXIT_FAILURE);
 

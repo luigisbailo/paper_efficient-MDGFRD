@@ -64,14 +64,14 @@ double dist2next_per (particle *A, particle *B, double L ) {
 
 void printPos_per (particle *particles, int *partList, int N){
 
-  cout <<"Part.\t"<<"Time\t\t"<<"Tau\t\t"<<"Shell\t"
+  std::cout <<"Part.\t"<<"Time\t\t"<<"Tau\t\t"<<"Shell\t"
        <<"x\t"<<"y\t"<<"z\t"
        <<"x_ex\t"<<"y_ex\t"<<"z_ex\t"
        <<"x_per\t"<<"y_per\t"<<"z_per\t"
        <<"Radius\t" <<"BURST\t"<<"GF\n";
 
   for (int count=0; count<N; count++){
-    cout <<particles[partList[count]].label << "\t"
+    std::cout <<particles[partList[count]].label << "\t"
    <<particles[partList[count]].time << "\t\t" 
    <<particles[partList[count]].tau_exit<<"\t\t"
    <<particles[partList[count]].shell<<"\t"
@@ -263,7 +263,7 @@ void updatePart_aGF ( particle *P, gsl_rng *r, double dt, double L ) {
   
     double deltaT = trunc( (P->time+dt)/dt )*dt - P->time;
     if (deltaT>dt){
-      cout << "ERROR: time step in update part" << endl;
+      std::cout << "ERROR: time step in update part" << std::endl;
     }
 
     P -> pos[0] += gsl_ran_gaussian (r,1)*P->sqrtDiff*sqrt(2*deltaT);

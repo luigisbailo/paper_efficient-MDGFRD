@@ -60,7 +60,7 @@ void BFstep ( particle *particles, BFdistances *d, gsl_rng *r, double tau_bm, in
         deltaPos[2] += K*particles[i].Diff * (varPos[2]/ dist ) * (particles[i].radius+particles[j].radius -dist) * tau_bm;
 
         if ( abs(sqrt(varPos[0]*varPos[0]+varPos[1]*varPos[1]+varPos[2]*varPos[2])- dist) > 0.001 ){
-        cout << "ERROR: distances in forces computing in BM" << endl;
+            std::cout << "ERROR: distances in forces computing in BM" << std::endl;
         }
 
       }

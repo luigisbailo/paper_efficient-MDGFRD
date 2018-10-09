@@ -4,9 +4,9 @@ project(Code)
 set(CMAKE_CXX_STANDARD 11)
 
 add_executable(Code
-        2draft/alpha/fixAlpha/main.cpp
-        2draft/alpha/GF-BF/main.cpp
-        2draft/Diff/main.cpp
+#        2draft/alpha/fixAlpha/main.cpp
+#        2draft/alpha/GF-BF/main.cpp
+#        2draft/Diff/main.cpp
         2draft/Perf/main.cpp
         2draft/bruteForce.hpp
         2draft/burst.hpp
@@ -16,7 +16,7 @@ add_executable(Code
         2draft/greensFunct.hpp
         2draft/greensFunctDef.hpp
         2draft/init.hpp
-        2draft/main.cpp
+#        2draft/main.cpp
         2draft/parameters.hpp
         2draft/parametersDef.hpp
         2draft/print.hpp
@@ -28,14 +28,14 @@ add_executable(Code
         2draft/shell.hpp
         2draft/step.hpp
         2draft/tools.hpp
-        2draftNeighb/Perf/main.cpp
+#        2draftNeighb/Perf/main.cpp
         2draftNeighb/bruteForce.hpp
         2draftNeighb/burst.hpp
         2draftNeighb/checks.hpp
         2draftNeighb/draw.hpp
         2draftNeighb/greensFunct.hpp
         2draftNeighb/init.hpp
-        2draftNeighb/main.cpp
+#        2draftNeighb/main.cpp
         2draftNeighb/parameters.hpp
         2draftNeighb/print.hpp
         2draftNeighb/run_aGF.hpp
@@ -44,3 +44,6 @@ add_executable(Code
         2draftNeighb/shell.hpp
         2draftNeighb/step.hpp
         2draftNeighb/tools.hpp)
+
+find_package(GSL REQUIRED)
+target_link_libraries(Code GSL::gsl GSL::gslcblas)

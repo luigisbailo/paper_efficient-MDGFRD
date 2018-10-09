@@ -151,7 +151,7 @@ void initPos_hybGF ( particle *particles, gsl_rng *r, int N_A, int N_B, double R
       particles[count].radius = R_A;
       particles[count].R_gfrd = alpha*sqrt(D_A*tau_bm);
       particles[count].R_bd = alpha*sqrt(D_A*tau_bm);
-      particles[count].burstR = alpha*sqrt(min(D_A,D_B)*tau_bm); 
+      particles[count].burstR = alpha*sqrt(std::min(D_A,D_B)*tau_bm);
       
     }
     else{
@@ -162,7 +162,7 @@ void initPos_hybGF ( particle *particles, gsl_rng *r, int N_A, int N_B, double R
       particles[count].radius = R_B;
       particles[count].R_gfrd = alpha*sqrt(D_B*tau_bm); 
       particles[count].R_bd = alpha*sqrt(D_A*tau_bm); 
-      particles[count].burstR = alpha*sqrt(min(D_A,D_B)*tau_bm); 
+      particles[count].burstR = alpha*sqrt(std::min(D_A,D_B)*tau_bm);
 
     }
   }
@@ -208,7 +208,7 @@ void initPos_GF ( particle *particles, gsl_rng *r, int N_A, int N_B, double R_A,
       particles[count].radius = R_A;
       particles[count].R_gfrd = MU_GF*R_A;
       particles[count].R_bd = MU_BM*R_A;
-      particles[count].burstR = MU_BM*min(R_A,R_B); 
+      particles[count].burstR = MU_BM*std::min(R_A,R_B);
       
     }
     else{
@@ -219,7 +219,7 @@ void initPos_GF ( particle *particles, gsl_rng *r, int N_A, int N_B, double R_A,
       particles[count].radius = R_B;
       particles[count].R_gfrd = MU_GF*R_B; 
       particles[count].R_bd = MU_BM*R_B; 
-      particles[count].burstR = MU_BM*min(R_A,R_B); 
+      particles[count].burstR = MU_BM*std::min(R_A,R_B);
 
     }
   }
@@ -294,7 +294,7 @@ void initShell_aGF ( particle *particles, gsl_rng *r, int N, double tau_bm, doub
 
     }
     
-  double R = *min_element( initShells, initShells+N);
+  double R = *std::min_element( initShells, initShells+N);
 
 
   if ( R > particles[i].R_bd ){
@@ -345,7 +345,7 @@ void initShell_GF ( particle *particles, gsl_rng *r, int N, double tau_bm, doubl
 
     }
     
-  double R = *min_element( initShells, initShells+N);
+  double R = *std::min_element( initShells, initShells+N);
 
 
   if ( R > particles[i].R_bd ){

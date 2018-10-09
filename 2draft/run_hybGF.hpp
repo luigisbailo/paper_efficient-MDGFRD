@@ -31,10 +31,10 @@ void run_hybGF ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, dou
     initShell_GF ( particles, r, N, tau_bm, sqrt2TAU_BM, L, &stat[1]);
 
     //sort() is a prebuild c++ funct. It sorts particles for increasing exit times
-    sort ( particles, particles+N, compareTime );   
+	std::sort ( particles, particles+N, compareTime );
     for (int n=0; n<N; n++) partList[n]=n;
 
-	cout << setprecision (3);
+	std::cout << std::setprecision (3);
 
 	// int mycount = 0;
     while ( particles[partList[0]].tau_exit < Tsim ) {
