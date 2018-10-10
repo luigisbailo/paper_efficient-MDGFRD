@@ -5,9 +5,9 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_executable(Code
 #        2draft/alpha/fixAlpha/main.cpp
-#        2draft/alpha/GF-BF/main.cpp
-#        2draft/Diff/main.cpp
-        2draft/Perf/main.cpp
+        2draft/alpha/GF-BF/GF_BF.hpp
+#        2draft/diffusion/main.cpp
+#        2draft/performance/main.cpp
         2draft/bruteForce.hpp
         2draft/burst.hpp
         2draft/checks.hpp
@@ -16,9 +16,8 @@ add_executable(Code
         2draft/greensFunct.hpp
         2draft/greensFunctDef.hpp
         2draft/init.hpp
-#        2draft/main.cpp
+        2draft/main.cpp
         2draft/parameters.hpp
-        2draft/parametersDef.hpp
         2draft/print.hpp
         2draft/run_aGF1.hpp
         2draft/run_aGF2.hpp
@@ -28,7 +27,7 @@ add_executable(Code
         2draft/shell.hpp
         2draft/step.hpp
         2draft/tools.hpp
-#        2draftNeighb/Perf/main.cpp
+#        2draftNeighb/performance/main.cpp
         2draftNeighb/bruteForce.hpp
         2draftNeighb/burst.hpp
         2draftNeighb/checks.hpp

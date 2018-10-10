@@ -1,47 +1,5 @@
-//TO COMPILE: g++ -std=c++11 main.cpp -o main -lgsl -lgslcblas -lm
+void diffusion () {
 
-using namespace std;
-#define print(x) cout << x << endl;
-
-#include <gsl/gsl_rng.h>
-#include <gsl/gsl_randist.h>
-#include <gsl/gsl_roots.h>
-#include <gsl/gsl_math.h>
-#include <cmath>
-#include <gsl/gsl_errno.h>
-#include <iostream>
-#include <fstream>
-#include <algorithm> 
-#include <vector>
-#include <iomanip>
-#include <chrono>
-#include <cstring>
-#include <sstream>
-
-using namespace std;
-using namespace std::chrono;
-
-
-#include "../parameters.hpp"
-#include "../tools.hpp"
-#include "../greensFunct.hpp"
-#include "../draw.hpp"
-#include "../init.hpp"
-#include "../step.hpp"
-#include "../shell.hpp"
-#include "../print.hpp"
-#include "../burst.hpp"
-#include "../bruteForce.hpp"
-#include "../checks.hpp"
-#include "../run_aGF.hpp"
-#include "../run_GF.hpp"
-#include "../run_BM.hpp"
-
-
-int main (int argc, char *argv[]) {
-
-
-	
 	double D_A;
 	double D_B;
 	double R_A;
@@ -99,7 +57,6 @@ int main (int argc, char *argv[]) {
 
 			for ( int n=0; n<N; n++){
 				Diff_aGF [n][count][t] = diffStat[n];
-				// cout << Diff_aGF [n][count][t]<<"\t";
 			}
 
 
@@ -127,7 +84,6 @@ int main (int argc, char *argv[]) {
 
 			for (int n=0; n<N; n++){
 				Diff_GF2 [n][count][t] = diffStat[n];
-				// cout << Diff_GF [n][count][t]<<"\t";
 			}
 
 
@@ -141,7 +97,6 @@ int main (int argc, char *argv[]) {
 
 			for ( int n=0; n<N; n++){
 				Diff_BM [n][count][t] = diffStat[n];
-				// cout << Diff_BM [n][count][t]<<"\t";
 			}
 		}	
 	
@@ -197,11 +152,6 @@ int main (int argc, char *argv[]) {
 				sdDiff_GF2 [t] += pow(Diff_GF2[n][count][t]-avDiff_GF2[t],2); 
 				sdDiff_BM [t] += pow(Diff_BM[n][count][t]-avDiff_BM[t],2); 
 
-			
-				// cout <<  pow(Diff_aGF[n][count][t]-avDiff_aGF[t],2) 
-				// 	<<"\t"<< pow(Diff_GF[n][count][t]-avDiff_GF[t],2) 
-				// 	<< "\t"<<pow(Diff_BM[n][count][t]-avDiff_BM[t],2)<<endl; 
-			
 			}
 		}
 	

@@ -1,8 +1,3 @@
-//TO COMPILE: g++ -std=c++11 main.cpp -o main -lgsl -lgslcblas -lm
-
-using namespace std;
-#define print(x) cout << x << endl;
-
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_roots.h>
@@ -18,7 +13,6 @@ using namespace std;
 #include <cstring>
 #include <sstream>
 
-using namespace std::chrono;
 
 #include "parameters.hpp"
 #include "tools.hpp"
@@ -31,11 +25,28 @@ using namespace std::chrono;
 #include "burst.hpp"
 #include "bruteForce.hpp"
 #include "checks.hpp"
+#include "alpha/GF-BF/GF_BF.hpp"
+#include "performance/performance.hpp"
+#include "diffusion/diffusion.hpp"
+#include "alpha/fixAlpha/fixAlpha.hpp"
+
 
 int main () {         
 
-// cout << drawTimeNewt (1.5541445463895798e-08,0.001,0.38271502428688109) << endl;
-cout << drawPosNewt (0.000000015541445463895798,0.099028305855863863,0.01,0.38271502428688109) << endl;
+    //Print FIG 4
+    GF_BF();
+
+    //Print FIG 5, FIG 6, FIG 7, FIG 8
+    performance();
+
+    //Print FIG 9
+    diffusion();
+
+    //Print FIG 10
+    fixAlpha();
+
+
+
 
   }
 
