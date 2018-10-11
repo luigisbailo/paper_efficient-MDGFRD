@@ -47,7 +47,7 @@ void fixAlpha () {
 	}
 
 
-	high_resolution_clock::time_point t2,t1;
+    std::chrono::high_resolution_clock::time_point t2,t1;
 	double t12, avT;
 
 
@@ -71,11 +71,11 @@ void fixAlpha () {
  			for (int n=0; n<N; n++)
  				diffStat [N] = 0;
 
-		    t1 = high_resolution_clock::now();
+		    t1 = std::chrono::high_resolution_clock::now();
 
 		    run_aGF2 ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, alpha, Tsim, L, stat, diffStat );
 
-		    t2 = high_resolution_clock::now();
+		    t2 = std::chrono::high_resolution_clock::now();
 		    
 		    t12 = double(std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count())/1000000;
 
