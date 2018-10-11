@@ -1,7 +1,7 @@
 void performance ( ) {
 
-  int nL = 7;
-  double L[nL];
+    int nL = 7;
+    double L[nL];
     L[0]=2500;
     L[1]=1150;
     L[2]=545;
@@ -219,9 +219,6 @@ void performance ( ) {
         stat_hybGFav [d][l] += stat_hybGF [d][l][count];
         stat_GF1av [d][l] += stat_GF1 [d][l][count];
         stat_GF2av [d][l] += stat_GF2 [d][l][count];
-
-        // cout << stat_aGF [d][l][count] << "--";
-        // cout << stat_GF1 [d][l][count] << "\t"; 
 
       }
 

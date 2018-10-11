@@ -18,23 +18,15 @@ void diffusion () {
 	int Nsamples = 1000;
 
 	int nT = 5;
-	double Tsim [nT] = {100000,200000,300000,400000,500000};
+	double Tsim [nT];
+    Tsim[0] = 100000;
+    Tsim[1] = 200000;
+    Tsim[2] = 300000;
+    Tsim[3] = 400000;
+    Tsim[4] = 500000;
 	// int nT = 1;
 	// double Tsim [nT] = {1000};
 
-	stringstream convert_DA (argv[1]); 
-	stringstream convert_RA (argv[2]); 
-	stringstream convert_DB (argv[3]); 
-	stringstream convert_RB (argv[4]); 
-
-	if (!(convert_DA >> D_A ))
-	exit (EXIT_FAILURE);  
-	if (!(convert_RA >> R_A ))
-	exit (EXIT_FAILURE);  
-	if (!(convert_DB >> D_B ))
-	exit (EXIT_FAILURE);  
-	if (!(convert_RB >> R_B ))
-	exit (EXIT_FAILURE);  
 
 	int stat[3];
 	double diffStat [N];
@@ -53,7 +45,7 @@ void diffusion () {
 			for ( int n=0; n<N; n++ )
 				diffStat[n] = 0;
 
-			run_aGF ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, alpha, Tsim[t], L, stat, diffStat );
+			run_aGF1 ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, alpha, Tsim[t], L, stat, diffStat );
 
 			for ( int n=0; n<N; n++){
 				Diff_aGF [n][count][t] = diffStat[n];
@@ -164,12 +156,12 @@ void diffusion () {
 
 
 
-	cout << setprecision (7);
+	std::cout << std::setprecision (7);
 
 	for ( int t=0; t<nT; t++){
 
-		cout << Tsim[t] << "\t" << avDiff_aGF[t] << "\t" << avDiff_GF1[t] << "\t" << avDiff_GF2[t] << "\t" << avDiff_BM[t] << "\t" ;
-		cout << sdDiff_aGF[t] << "\t" << sdDiff_GF1[t] << "\t" << sdDiff_GF2[t] << "\t" << sdDiff_BM[t] << endl;
+		std::cout << Tsim[t] << "\t" << avDiff_aGF[t] << "\t" << avDiff_GF1[t] << "\t" << avDiff_GF2[t] << "\t" << avDiff_BM[t] << "\t" ;
+		std::cout << sdDiff_aGF[t] << "\t" << sdDiff_GF1[t] << "\t" << sdDiff_GF2[t] << "\t" << sdDiff_BM[t] << std::endl;
 
 	}
 
