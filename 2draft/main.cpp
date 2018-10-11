@@ -39,18 +39,28 @@
 
 int main () {         
 
+    std::cout << "Fig. 4" << std::endl<<std::endl;
     //Print FIG 4
     GF_BF();
+    std::cout << std::endl << std::endl;
 
+    std::cout << "Fig. 5, Fig. 6, Fig.7, Fig. 8" << std::endl<<std::endl;
     //Print FIG 5, FIG 6, FIG 7, FIG 8
     performance();
+
+    std::cout << std::endl << std::endl;
+    std::cout << "Fig. 5, Fig. 6, Fig.7, Fig. 8" << std::endl<<std::endl;
 
     //Print FIG 9
     diffusion();
 
+    std::cout << std::endl << std::endl;
+    std::cout << "Fig. 10" << std::endl<<std::endl;
+
     //Print FIG 10
     fixAlpha();
 
+    std::cout << std::endl << std::endl;
 
 
 

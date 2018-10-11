@@ -2,11 +2,11 @@ void fixAlpha () {
 
 
 	double L;
-	double D_A;
-	double D_B;
+	double D_A=0.01;
+	double D_B=0.01;
 	const double R_A = 2.5;
 	const double R_B = 2.5;
-	double tau_bm;
+	double tau_bm=0.1;
 	int nINTsteps;
 	int POWsteps;
 	int Nsamples;

@@ -14,8 +14,7 @@ void diffusion () {
 
 	double alpha= 9;
 	double L = 25;
-	// int Nsamples = 100;
-	int Nsamples = 1000;
+	int Nsamples = 100;
 
 	int nT = 5;
 	double Tsim [nT];
@@ -24,8 +23,7 @@ void diffusion () {
     Tsim[2] = 300000;
     Tsim[3] = 400000;
     Tsim[4] = 500000;
-	// int nT = 1;
-	// double Tsim [nT] = {1000};
+
 
 
 	int stat[3];
