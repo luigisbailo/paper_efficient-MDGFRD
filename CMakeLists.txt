@@ -4,9 +4,9 @@ project(Code)
 set(CMAKE_CXX_STANDARD 11)
 
 add_executable(Code
-#        2draft/alpha/fixAlpha/main.cpp
+        2draft/alpha/fixAlpha/fixAlpha.hpp
         2draft/alpha/GF-BF/GF_BF.hpp
-#        2draft/diffusion/main.cpp
+        2draft/diffusion/diffusion.hpp
         2draft/performance/performance.hpp
         2draft/bruteForce.hpp
         2draft/burst.hpp
