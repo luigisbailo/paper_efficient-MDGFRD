@@ -7,7 +7,7 @@ add_executable(Code
 #        2draft/alpha/fixAlpha/main.cpp
         2draft/alpha/GF-BF/GF_BF.hpp
 #        2draft/diffusion/main.cpp
-#        2draft/performance/main.cpp
+        2draft/performance/performance.hpp
         2draft/bruteForce.hpp
         2draft/burst.hpp
         2draft/checks.hpp
@@ -23,7 +23,7 @@ add_executable(Code
         2draft/run_aGF2.hpp
         2draft/run_BM.hpp
         2draft/run_GF.hpp
-        2draft/run_hybGF.hpp
+        2draft/run_hybrGF.hpp
         2draft/shell.hpp
         2draft/step.hpp
         2draft/tools.hpp

@@ -25,10 +25,16 @@
 #include "burst.hpp"
 #include "bruteForce.hpp"
 #include "checks.hpp"
+#include "run_aGF1.hpp"
+#include "run_aGF2.hpp"
+#include "run_BM.hpp"
+#include "run_GF.hpp"
+#include "run_hybrGF.hpp"
 #include "alpha/GF-BF/GF_BF.hpp"
 #include "performance/performance.hpp"
 #include "diffusion/diffusion.hpp"
 #include "alpha/fixAlpha/fixAlpha.hpp"
+
 
 
 int main () {         
