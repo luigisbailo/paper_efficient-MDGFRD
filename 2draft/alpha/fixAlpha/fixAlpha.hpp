@@ -9,8 +9,7 @@ void fixAlpha () {
 	double tau_bm=0.1;
 	int nINTsteps;
 	int POWsteps;
-	int Nsamples;
-	const int N = 10;	
+	const int N = 10;
 	const int N_A = 5;
 	const int N_B = 5;
 
@@ -21,6 +20,14 @@ void fixAlpha () {
 	alphaValues[2]=10;
 	alphaValues[3]=12;
 	alphaValues[4]=16;
+
+	int Nsamples[nAlphas];
+	Nsamples[0]=10000000;
+	Nsamples[1]=1000000;
+	Nsamples[2]=100000;
+	Nsamples[3]=10000;
+	Nsamples[4]=1000;
+	Nsamples[5]=100;
 
 	int stat [3];
 	double diffStat [N];
@@ -59,10 +66,10 @@ void fixAlpha () {
 	std::cout << Nsamples << std::endl;
     
 
-	for ( int count=0; count < Nsamples; count ++){
-
 		for ( int  n=0; n<nAlphas; n++ ){
- 
+
+			for ( int count=0; count < Nsamples[n]; count ++){
+
 			double alpha = alphaValues[n];
 
  			for (int d=0; d<3; d++) 
@@ -96,8 +103,8 @@ void fixAlpha () {
 
 
 	for (int count=0; count<nAlphas; count++)
-		std::cout << alphaValues[count] << "\t" << arrT[count]/Nsamples  << "\t"
-			 << double(arrStat[0][count])/Nsamples << "\t" << double(arrStat[1][count])/Nsamples << "\t" << double(arrStat[2][count])/Nsamples << std::endl;
+		std::cout << alphaValues[count] << "\t" << arrT[count]/Nsamples[count]  << "\t"
+			 << double(arrStat[0][count])/Nsamples[count] << "\t" << double(arrStat[1][count])/Nsamples[count] << "\t" << double(arrStat[2][count])/Nsamples[count] << std::endl;
 
  
 }
