@@ -1,3 +1,6 @@
+// author luigisbailo
+
+
 void initPos_aGF1 ( particle *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B, double D_A, double D_B, double tau_bm, double alpha, double L) {
 
   double x,y,z;
@@ -304,7 +307,7 @@ void initShell_aGF ( particle *particles, gsl_rng *r, int N, double tau_bm, doub
 
     polarTransf ( deltaPos, R, gsl_rng_uniform (r), gsl_rng_uniform (r));
 
-    particles[i].tau_exit = drawTimeNewt ( R, particles[i].Diff, gsl_rng_uniform(r) ); 
+    particles[i].tau_exit = drawTimeNewt ( R, particles[i].Diff, gsl_rng_uniform(r) );
     particles[i].shell = R;
     particles[i].gf = true;
     particles[i].pos_exit[0]= particles[i].pos[0] + deltaPos[0];

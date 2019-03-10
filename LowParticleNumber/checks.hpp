@@ -1,3 +1,6 @@
+// author luigisbailo
+
+
 void check_aGF (  particle *particles, int *partList, int N, double L ){
   
 

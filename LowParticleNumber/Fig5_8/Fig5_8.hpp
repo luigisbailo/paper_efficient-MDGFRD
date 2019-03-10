@@ -1,3 +1,6 @@
+// author luigisbailo
+
+
 void fig5_8 ( double D_A, double D_B, double R_A, double R_B ) {
 
     int nL = 7;

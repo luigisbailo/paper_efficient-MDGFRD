@@ -1,3 +1,6 @@
+// author luigisbailo
+
+
 void getBFdistances ( particle *particles, BFdistances *d, int N, double L){
 
     for ( int i=0; i<N; i++ ) {

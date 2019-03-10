@@ -1,3 +1,6 @@
+// author luigisbailo
+
+
 double getR_aGF ( particle *particles, int *particleList, double *shells, double *distRow, int N, double L ){
 //shell radius computed considering the expectd exit position of the other particles
 //since it is considering only the exit positions, and not the actual shells it might overlap other shells

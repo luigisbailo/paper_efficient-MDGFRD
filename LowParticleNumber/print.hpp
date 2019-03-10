@@ -1,3 +1,6 @@
+// author luigisbailo
+
+
 void printPos ( particle *particles, int *partList, int N){
 
 	std::cout <<"Part.\t"<<"Time\t"<<"Tau\t"<<"Shell\t"

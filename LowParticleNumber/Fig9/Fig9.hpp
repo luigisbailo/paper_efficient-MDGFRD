@@ -1,3 +1,6 @@
+// author luigisbailo
+
+
 void fig9 (double D_A, double D_B, double R_A, double R_B) {
 
 

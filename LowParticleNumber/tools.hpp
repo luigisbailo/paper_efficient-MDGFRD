@@ -1,3 +1,6 @@
+// author luigisbailo
+
+
 class particle {
 public:
   int label;

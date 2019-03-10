@@ -1,3 +1,6 @@
+// author luigisbailo
+
+
 double Sfunct ( double t, double b, double D) {
 //This function returns 1-Survival probability, i.e. the probability of having already left the domain
 

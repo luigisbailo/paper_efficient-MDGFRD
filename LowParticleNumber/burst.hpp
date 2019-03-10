@@ -1,3 +1,6 @@
+// author luigisbailo
+
+
 void burst_P_aGF ( particle *particles, int *partList, double *distRow, gsl_rng *r,  int N, int iPart, double L ) {
 
   double deltaPos [3]; 

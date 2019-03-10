@@ -1,3 +1,6 @@
+// author luigisbailo
+
+
 void GFstep_aGF ( particle *myPart, gsl_rng *r, double R, double L ){
 //The shell radius "R" has been already determined with getR () and it has been already checked that the domain can be constructed
 

@@ -1,3 +1,6 @@
+// author luigisbailo
+
+
 double drawTimeNewt ( double b, double D, double xi ) {
 
   double t,tmem;

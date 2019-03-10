@@ -1,3 +1,6 @@
+// author luigisbailo
+
+
 void run_BM ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, double tau_bm, double Tsim, double L, double *diffStat ) {
 
 
