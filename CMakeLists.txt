@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.9)
 project(efficient_MDGFRD)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_C_STANDARD 11)
 
 add_executable(efficient_MDGFRD
-        main.cpp
+        main.c
         LowParticleNumber/Fig4/Fig4.hpp
         LowParticleNumber/Fig9/Fig9.hpp
         LowParticleNumber/bruteForce.hpp
