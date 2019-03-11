@@ -1,7 +1,8 @@
 // author luigisbailo
 
 
-void burst_P_aGF ( particle *particles, int *partList, double *distRow, gsl_rng *r,  int N, int iPart, double L ) {
+void burst_P_aGF ( struct particle *particles, int *partList, double *distRow, gsl_rng *r,
+                   int N, int iPart, double L ) {
 
   double deltaPos [3]; 
 
@@ -10,16 +11,17 @@ void burst_P_aGF ( particle *particles, int *partList, double *distRow, gsl_rng 
 
     int jPart = partList[j];
 
-          
     if (  particles[jPart].gf == true  &&  distRow[j] - particles[jPart].shell < particles[iPart].burstR ) {
 
       particles[jPart].burst = true;  
       particles[jPart].gf = false;
 
       //The P function is not sampled at very small times, when the survival function S can be approximated to 1      
-      if (particles[iPart].time-particles[jPart].time> (particles[jPart].shell*particles[jPart].shell)/particles[jPart].Diff/1000){
+      if (particles[iPart].time-particles[jPart].time >
+              (particles[jPart].shell*particles[jPart].shell)/particles[jPart].Diff/1000){
 
-        polarTransf ( deltaPos, drawPosNewt ( particles[iPart].time-particles[jPart].time,  particles[jPart].shell, particles[jPart].Diff, gsl_rng_uniform(r) ),
+        polarTransf ( deltaPos, drawPosNewt ( particles[iPart].time-particles[jPart].time,  particles[jPart].shell,
+                                              particles[jPart].Diff, gsl_rng_uniform(r) ),
                      gsl_rng_uniform (r), gsl_rng_uniform (r) );
         //deltaPos now contains the displacements in cartesian coordinates
 
@@ -52,7 +54,6 @@ void burst_P_aGF ( particle *particles, int *partList, double *distRow, gsl_rng 
         particles[jPart].time = particles[iPart].time;
         particles[jPart].tau_exit = particles[iPart].time;
 
-
       }
       else{
         
@@ -64,11 +65,12 @@ void burst_P_aGF ( particle *particles, int *partList, double *distRow, gsl_rng 
         particles[jPart].shell = 0;
         particles[jPart].tau_exit = particles[iPart].time;
 
-
       }
 
-      // "distRow[]" is updated with the new distances, and whether there is a new closest distance to insert in distRow[0] is checked    
-      distRow [j] = sqrt(dist2_per ( &particles[iPart], &particles[jPart], L )) - particles[iPart].radius - particles[jPart].radius;
+      // "distRow[]" is updated with the new distances,
+      // and whether there is a new closest distance to insert in distRow[0] is checked
+      distRow [j] = sqrt(dist2_per ( &particles[iPart], &particles[jPart], L ))
+                    - particles[iPart].radius - particles[jPart].radius;
       if (distRow[j]<distRow[0]) distRow[0]=distRow[j];      
 
     }
@@ -78,7 +80,8 @@ void burst_P_aGF ( particle *particles, int *partList, double *distRow, gsl_rng 
 }
 
 
-void burst_P_GF ( particle *particles, int *partList, double *distRow, gsl_rng *r,  int N, int iPart, double L ) {
+void burst_P_GF ( struct particle *particles, int *partList, double *distRow, gsl_rng *r,
+                  int N, int iPart, double L ) {
 
   double deltaPos [3];
 
@@ -94,9 +97,11 @@ void burst_P_GF ( particle *particles, int *partList, double *distRow, gsl_rng *
       particles[jPart].gf = false;
 
       //The P function is not sampled at very small times, when the survival function S can be approximated to 1      
-      if (particles[iPart].time-particles[jPart].time> (particles[jPart].shell*particles[jPart].shell)/particles[jPart].Diff/1000){
+      if (particles[iPart].time-particles[jPart].time >
+              (particles[jPart].shell*particles[jPart].shell)/particles[jPart].Diff/1000){
       
-        polarTransf ( deltaPos, drawPosNewt ( particles[iPart].time-particles[jPart].time,  particles[jPart].shell, particles[jPart].Diff, gsl_rng_uniform(r) ),
+        polarTransf ( deltaPos, drawPosNewt ( particles[iPart].time-particles[jPart].time,  particles[jPart].shell,
+                                              particles[jPart].Diff, gsl_rng_uniform(r) ),
                       gsl_rng_uniform (r), gsl_rng_uniform (r) );
         //deltaPos now contains the displacements in cartesian coordinates
         
@@ -139,8 +144,7 @@ void burst_P_GF ( particle *particles, int *partList, double *distRow, gsl_rng *
       // "distRow[]" is updated with the new distances, and weather there is a new closest distance to insert in distRow[0] is checked    
       distRow [j] = sqrt(dist2_per ( &particles[iPart], &particles[jPart], L )) - particles[iPart].radius - particles[jPart].radius;
       if (distRow[j]<distRow[0]) distRow[0]=distRow[j];      
- 
-    
+
     }
 
   }  

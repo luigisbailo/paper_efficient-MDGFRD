@@ -150,12 +150,12 @@ void fig9 (double D_A, double D_B, double R_A, double R_B) {
 
 
 
-	std::cout << std::setprecision (7);
 
 	for ( int t=0; t<nT; t++){
 
-		std::cout << Tsim[t] << "\t" << avDiff_aGF[t] << "\t" << avDiff_GF1[t] << "\t" << avDiff_GF2[t] << "\t" << avDiff_BM[t] << "\t" ;
-		std::cout << sdDiff_aGF[t] << "\t" << sdDiff_GF1[t] << "\t" << sdDiff_GF2[t] << "\t" << sdDiff_BM[t] << std::endl;
+		printf ("%lf/t%lf/t%lf/t%lf/t%lf/t%lf/t%lf/t%lf/t%lf/n",
+				Tsim[t], avDiff_aGF[t], avDiff_GF1[t], avDiff_GF2[t],
+				avDiff_BM[t], sdDiff_aGF[t], sdDiff_GF1[t], sdDiff_GF2[t], sdDiff_BM[t]);
 
 	}
 

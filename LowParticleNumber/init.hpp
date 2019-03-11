@@ -1,7 +1,8 @@
 // author luigisbailo
 
 
-void initPos_aGF1 ( particle *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B, double D_A, double D_B, double tau_bm, double alpha, double L) {
+void initPos_aGF1 ( struct particle *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B,
+                    double D_A, double D_B, double tau_bm, double alpha, double L) {
 
   double x,y,z;
 
@@ -58,7 +59,8 @@ void initPos_aGF1 ( particle *particles, gsl_rng *r, int N_A, int N_B, double R_
 }
 
 
-void initPos_aGF2 ( particle *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B, double D_A, double D_B, double tau_bm, double alpha, double L) {
+void initPos_aGF2 ( struct particle *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B,
+                    double D_A, double D_B, double tau_bm, double alpha, double L) {
 
   double x,y,z;
 
@@ -115,7 +117,8 @@ void initPos_aGF2 ( particle *particles, gsl_rng *r, int N_A, int N_B, double R_
 }
 
 
-void initPos_hybGF ( particle *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B, double D_A, double D_B, double tau_bm, double alpha, double L) {
+void initPos_hybGF ( struct particle *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B,
+                     double D_A, double D_B, double tau_bm, double alpha, double L) {
 
   double x,y,z;
 
@@ -145,7 +148,6 @@ void initPos_hybGF ( particle *particles, gsl_rng *r, int N_A, int N_B, double R
     particles[count].pos_period[1] = 0;
     particles[count].pos_period[2] = 0;
 
-
     if (count < N_A){        
 
       particles[count].type = 0;
@@ -154,7 +156,7 @@ void initPos_hybGF ( particle *particles, gsl_rng *r, int N_A, int N_B, double R
       particles[count].radius = R_A;
       particles[count].R_gfrd = alpha*sqrt(D_A*tau_bm);
       particles[count].R_bd = alpha*sqrt(D_A*tau_bm);
-      particles[count].burstR = alpha*sqrt(std::min(D_A,D_B)*tau_bm);
+      particles[count].burstR = alpha*sqrt(fmin(D_A,D_B)*tau_bm);
       
     }
     else{
@@ -165,14 +167,15 @@ void initPos_hybGF ( particle *particles, gsl_rng *r, int N_A, int N_B, double R
       particles[count].radius = R_B;
       particles[count].R_gfrd = alpha*sqrt(D_B*tau_bm); 
       particles[count].R_bd = alpha*sqrt(D_A*tau_bm); 
-      particles[count].burstR = alpha*sqrt(std::min(D_A,D_B)*tau_bm);
+      particles[count].burstR = alpha*sqrt(fmin(D_A,D_B)*tau_bm);
 
     }
   }
 }
 
 
-void initPos_GF ( particle *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B, double D_A, double D_B, double MU_BM, double MU_GF, double tau_bm, double alpha, double L) {
+void initPos_GF ( struct particle *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B,
+                  double D_A, double D_B, double MU_BM, double MU_GF, double tau_bm, double alpha, double L) {
 
   double x,y,z;
 
@@ -211,7 +214,7 @@ void initPos_GF ( particle *particles, gsl_rng *r, int N_A, int N_B, double R_A,
       particles[count].radius = R_A;
       particles[count].R_gfrd = MU_GF*R_A;
       particles[count].R_bd = MU_BM*R_A;
-      particles[count].burstR = MU_BM*std::min(R_A,R_B);
+      particles[count].burstR = MU_BM*fmin(R_A,R_B);
       
     }
     else{
@@ -222,14 +225,15 @@ void initPos_GF ( particle *particles, gsl_rng *r, int N_A, int N_B, double R_A,
       particles[count].radius = R_B;
       particles[count].R_gfrd = MU_GF*R_B; 
       particles[count].R_bd = MU_BM*R_B; 
-      particles[count].burstR = MU_BM*std::min(R_A,R_B);
+      particles[count].burstR = MU_BM*fmin(R_A,R_B);
 
     }
   }
 }
 
 
-void initPos_BM ( particle *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B, double D_A, double D_B, double tau_bm, double L) {
+void initPos_BM ( struct particle *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B,
+                  double D_A, double D_B, double tau_bm, double L) {
 
   double x,y,z;
 
@@ -279,7 +283,8 @@ void initPos_BM ( particle *particles, gsl_rng *r, int N_A, int N_B, double R_A,
 
 
 
-void initShell_aGF ( particle *particles, gsl_rng *r, int N, double tau_bm, double sqrt2TAU_BM, double L, int *stat ) {
+void initShell_aGF ( struct particle *particles, gsl_rng *r, int N, double tau_bm,
+                     double sqrt2TAU_BM, double L, int *stat ) {
 
   double initShells [N];
 
@@ -296,8 +301,8 @@ void initShell_aGF ( particle *particles, gsl_rng *r, int N, double tau_bm, doub
       }
 
     }
-    
-  double R = *std::min_element( initShells, initShells+N);
+
+      double R = min_element( initShells, 0, N );
 
 
   if ( R > particles[i].R_bd ){
@@ -331,7 +336,7 @@ void initShell_aGF ( particle *particles, gsl_rng *r, int N, double tau_bm, doub
 }
 
 
-void initShell_GF ( particle *particles, gsl_rng *r, int N, double tau_bm, double sqrt2TAU_BM, double L, int *stat ) {
+void initShell_GF ( struct particle *particles, gsl_rng *r, int N, double tau_bm, double sqrt2TAU_BM, double L, int *stat ) {
 
   double initShells [N];
 
@@ -348,7 +353,7 @@ void initShell_GF ( particle *particles, gsl_rng *r, int N, double tau_bm, doubl
 
     }
     
-  double R = *std::min_element( initShells, initShells+N);
+  double R = min_element( initShells, 0, N);
 
 
   if ( R > particles[i].R_bd ){

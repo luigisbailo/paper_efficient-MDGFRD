@@ -21,11 +21,11 @@ void run_GF ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, double
 
 	const double sqrt2TAU_BM = sqrt(2*tau_bm);
 
-	const int N = N_A + N_B;
+	int N = N_A + N_B;
 
 	double distRow [N], maxSh;
 
-	particle particles [N]; 
+	struct particle particles [N];
 	double shells [N];	
 	int partList [N];
 
@@ -33,36 +33,16 @@ void run_GF ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, double
 
     initShell_GF ( particles, r, N, tau_bm, sqrt2TAU_BM, L, &stat[1]);
 
-    //sort() is a prebuild c++ funct. It sorts particles for increasing exit times
-	std::sort ( particles, particles+N, compareTime );
+	qsort ( particles, N, sizeof(struct particle), compareTime );
+
     for (int n=0; n<N; n++) partList[n]=n;
 
-	std::cout << std::setprecision (3);
-
-	// int mycount = 0;
-    while ( particles[partList[0]].tau_exit < Tsim ) {
-		// mycount ++;
-		// if (mycount==10) exit (EXIT_FAILURE);
+	while ( particles[partList[0]].tau_exit < Tsim ) {
 
     	if ( particles[partList[0]].burst == true ) stat[0]++;
 
-		// cout << "--------------------------------------------------------------------------------------------------------------------------\n";
-		// cout << setprecision(6);
-		// printPos_per ( particles, partList, N );
-		// // printDist_per (particles, partList, N, L);
-		// cout << "\n";
-
-		updatePart_GF ( &particles[partList[0]], r, tau_bm, L );    
+		updatePart_GF ( &particles[partList[0]], r, tau_bm, L );
 		//differently from aGF, updatePart() here samples also the exit position from the shell
-
-		// cout << setprecision(6);
-		// printPos_per ( particles, partList, N );
-		// // printDist_per (particles, partList, N, L);
-		// cout << "\n";
-
-		// check_GF ( particles, partList,  N, L );
-
-		// check_times ( particles, partList, N);
 
 		getDist ( particles, partList, distRow, &maxSh, N, L );
 

@@ -19,8 +19,8 @@ void run_BM ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, double
 
 	const int N = N_A + N_B;
 
-	BFdistances d[N];
-	particle particles [N]; 
+	struct BFdistances d[N];
+	struct particle particles [N];
 
     initPos_BM ( particles, r, N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, L); 
 
@@ -42,9 +42,7 @@ void run_BM ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, double
 
     }
 
-
     gsl_rng_free (r);
-
 
 }
 

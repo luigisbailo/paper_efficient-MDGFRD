@@ -5,7 +5,7 @@ void fig5_8 ( double D_A, double D_B, double R_A, double R_B ) {
 
     int nL = 7;
     double L[nL];
-    L[0]=2500;
+    L[0]=2250;
     L[1]=1150;
     L[2]=545;
     L[3]=255;
@@ -13,187 +13,175 @@ void fig5_8 ( double D_A, double D_B, double R_A, double R_B ) {
     L[5]=55;
     L[6]=25;
     int Nsamples[nL];
-    Nsamples[0]=1000;
-    Nsamples[1]=1000;
-    Nsamples[2]=1000;
-    Nsamples[3]=100;
-    Nsamples[4]=100;
-    Nsamples[5]=10;
+//    Nsamples[0]=1000;
+//    Nsamples[1]=1000;
+//    Nsamples[2]=1000;
+//    Nsamples[3]=100;
+//    Nsamples[4]=100;
+//    Nsamples[5]=10;
+//    Nsamples[6]=1;
+
+    Nsamples[0]=100;
+    Nsamples[1]=100;
+    Nsamples[2]=100;
+    Nsamples[3]=10;
+    Nsamples[4]=10;
+    Nsamples[5]=1;
     Nsamples[6]=1;
 
-  double tau_bm=0.1;
-  long int nINTsteps;
-  int POWsteps=5;
-  const int N = 10; 
-  const int N_A = 5;
-  const int N_B = 5;
-  double alpha = 9.;
-  int BMsamples = 2;
+
+    double tau_bm=0.1;
+    long int nINTsteps;
+    int POWsteps=7;
+    const int N = 10;
+    const int N_A = 5;
+    const int N_B = 5;
+    double alpha = 9.;
+    int BMsamples = 1;
 
 
+    clock_t start_t, end_t, total_t;
+    double t12, avT;
 
-  std::chrono::high_resolution_clock::time_point t2,t1;
-  double t12, avT;
+    nINTsteps = (int) (pow (10,POWsteps));
+    const double Tsim = nINTsteps*tau_bm;
 
-  nINTsteps = int(pow (10,POWsteps));
-  const double Tsim = nINTsteps*tau_bm;
+    int stat [3];
+    double diffStat[N];
 
-  int stat [3];
-  double diffStat[N];
+    // stat[0] number burstings
+    // stat[1] number domains
+    // stat[2] BD steps
+    // stat[3] squared displacement
+    double stat_aGF1[3][nL][Nsamples[0]*BMsamples];
+    double stat_aGF2[3][nL][Nsamples[0]*BMsamples];
+    double stat_hybGF[3][nL][Nsamples[0]*BMsamples];
+    double stat_GF1[3][nL][Nsamples[0]*BMsamples];
+    double stat_GF2[3][nL][Nsamples[0]*BMsamples];
+    double stat_BM [nL][BMsamples];
+    double arrT [6][nL][Nsamples[0]*BMsamples];
 
-  // stat[0] number burstings
-  // stat[1] number domains
-  // stat[2] BD steps
-  // stat[3] squared displacement
-  double stat_aGF1[3][nL][Nsamples[0]*BMsamples];
-  double stat_aGF2[3][nL][Nsamples[0]*BMsamples];
-  double stat_hybGF[3][nL][Nsamples[0]*BMsamples];
-  double stat_GF1[3][nL][Nsamples[0]*BMsamples];
-  double stat_GF2[3][nL][Nsamples[0]*BMsamples];
-  double stat_BM [nL][BMsamples];
-  double arrT [6][nL][Nsamples[0]*BMsamples];
+    printf ("%lf\n%lf\n%lf\n%ld\n%lf\n",D_A,D_B,tau_bm,nINTsteps,alpha);
 
-  std::cout << D_A << std::endl;
-    std::cout << D_B << std::endl;
-    std::cout << tau_bm << std::endl;
-    std::cout << nINTsteps << std::endl;
-    std::cout << alpha << std::endl;
-    std::cout << "Expected squared distance per particle: " << 6*Tsim*(N_A*D_A+N_B*D_B)/N << std::endl;
-    std::cout << "Minimal aGF shell: " << alpha*sqrt(D_A*tau_bm) << "\t" << alpha*sqrt(D_B*tau_bm) << std::endl;
-    std::cout << "Minimal GF1 shell:  " << 1*R_A << "\t" << 1*R_B << std::endl;
-    std::cout << "Minimal GF2 shell:  " << 1.5*R_A << "\t" << 2.5*R_B << std::endl;
-    std::cout << std::endl;
+    for ( int count1=0; count1 < BMsamples; count1 ++){
+
+        int n=0;
+
+        for ( int l=0; l<nL; l++) {
+
+            for ( int count2=0; count2<Nsamples[l]; count2++ ) {
+
+                for (int d=0; d<3; d++)
+                    stat[d] = 0;
+
+                start_t = clock();
+
+                run_aGF1 ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, alpha, Tsim, L[l], stat, diffStat );
+
+                end_t = clock();
+
+                total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+
+                arrT [0][l][count1*Nsamples[l]+count2] = total_t;
+
+                for (int d=0; d<3; d++)
+                    stat_aGF1 [d][l][count1*Nsamples[l]+count2] = stat[d];
+
+                for (int d=0; d<3; d++)
+                    stat[d] = 0;
+
+                for (int n=0; n<N; n++)
+                    diffStat[n]= 0;
+
+                start_t = clock();
+
+//                run_aGF2 ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, alpha, Tsim, L[l], stat, diffStat );
+
+                end_t = clock();
+
+                total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+
+                arrT [1][l][count1*Nsamples[l]+count2] = total_t;
+
+                for (int d=0; d<3; d++)
+                    stat_aGF2 [d][l][count1*Nsamples[l]+count2] = stat[d];
+
+                for (int d=0; d<3; d++)
+                 stat[d] = 0;
+                for (int n=0; n<N; n++)
+                 diffStat[n]=0;
+
+                start_t = clock();
+
+//                run_hybGF ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, alpha, Tsim, L[l], stat, diffStat );
+
+                end_t = clock();
+
+                total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+
+                arrT [2][l][count1*Nsamples[l]+count2] = total_t;
+
+                for (int d=0; d<3; d++)
+                    stat_hybGF [d][l][count1*Nsamples[l]+count2] = stat[d];
+
+                for (int d=0; d<3; d++)
+                  stat[d] = 0;
+                for (int n=0; n<N; n++)
+                  diffStat[n] = 0;
+
+                start_t = clock();
+
+//                run_GF ( N_A, N_B, R_A, R_B, D_A, D_B, 1.,1., tau_bm, alpha, Tsim, L[l], stat, diffStat );
+
+                end_t = clock();
+
+                total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
 
 
-  for ( int count1=0; count1 < BMsamples; count1 ++){
+                arrT [3][l][count1*Nsamples[l]+count2] = total_t;
 
-    int n=0;
-
-    for ( int l=0; l<nL; l++) {
-
-      for ( int count2=0; count2<Nsamples[l]; count2++ ) {
+                for (int d=0; d<3; d++)
+                  stat_GF1 [d][l][count1*Nsamples[l]+count2] = stat[d];
 
 
-        for (int d=0; d<3; d++)
-         stat[d] = 0;
+                for (int d=0; d<3; d++)
+                    stat[d] = 0;
+                for (int n=0; n<N; n++)
+                diffStat[n] = 0;
 
-        t1 = std::chrono::high_resolution_clock::now();
+                start_t = clock();
 
-        run_aGF1 ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, alpha, Tsim, L[l], stat, diffStat );
+//                run_GF ( N_A, N_B, R_A, R_B, D_A, D_B, 1.5, 2.5, tau_bm, alpha, Tsim, L[l], stat, diffStat );
 
-        t2 = std::chrono::high_resolution_clock::now();
-        
-        t12 = double(std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count())/1000000;
+                end_t = clock();
 
-        arrT [0][l][count1*Nsamples[l]+count2] = t12;
+                total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
 
-        for (int d=0; d<3; d++)
-          stat_aGF1 [d][l][count1*Nsamples[l]+count2] = stat[d]; 
+                arrT [4][l][count1*Nsamples[l]+count2] = total_t;
+
+                for (int d=0; d<3; d++)
+                    stat_GF2 [d][l][count1*Nsamples[l]+count2] = stat[d];
+            }
 
 
-
-        for (int d=0; d<3; d++)
-         stat[d] = 0;
         for (int n=0; n<N; n++)
-         diffStat[n]= 0;
+        diffStat[n] = 0;
 
-        t1 = std::chrono::high_resolution_clock::now();
+        start_t = clock();
 
-        run_aGF2 ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, alpha, Tsim, L[l], stat, diffStat );
+//        run_BM ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, Tsim, L[l], diffStat );
 
-        t2 = std::chrono::high_resolution_clock::now();
-        
-        t12 = double(std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count())/1000000;
-
-        arrT [1][l][count1*Nsamples[l]+count2] = t12;
-
-        for (int d=0; d<3; d++)
-          stat_aGF2 [d][l][count1*Nsamples[l]+count2] = stat[d]; 
+        end_t = clock();
 
 
+        arrT [5][l][count1] = t12;
 
-        for (int d=0; d<3; d++)
-         stat[d] = 0;
-        for (int n=0; n<N; n++)
-         diffStat[n]=0;
+//        stat_BM [l][count1] = stat[3];
 
-        t1 = std::chrono::high_resolution_clock::now();
-
-        run_hybGF ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, alpha, Tsim, L[l], stat, diffStat );
-
-        t2 = std::chrono::high_resolution_clock::now();
-        
-        t12 = double(std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count())/1000000;
-
-        arrT [2][l][count1*Nsamples[l]+count2] = t12;
-
-        for (int d=0; d<3; d++)
-          stat_hybGF [d][l][count1*Nsamples[l]+count2] = stat[d]; 
+        }
 
 
-        for (int d=0; d<3; d++)
-          stat[d] = 0;
-        for (int n=0; n<N; n++)
-          diffStat[n] = 0;
-
-        t1 = std::chrono::high_resolution_clock::now();
-
-        run_GF ( N_A, N_B, R_A, R_B, D_A, D_B, 1.,1., tau_bm, alpha, Tsim, L[l], stat, diffStat );
-
-        t2 = std::chrono::high_resolution_clock::now();
-        
-        t12 = double(std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count())/1000000;
-
-
-        arrT [3][l][count1*Nsamples[l]+count2] = t12;
-
-        for (int d=0; d<3; d++)
-          stat_GF1 [d][l][count1*Nsamples[l]+count2] = stat[d]; 
-      
-
-
-        for (int d=0; d<3; d++)
-          stat[d] = 0;
-        for (int n=0; n<N; n++)
-          diffStat[n] = 0;
-
-        t1 = std::chrono::high_resolution_clock::now();
-
-        run_GF ( N_A, N_B, R_A, R_B, D_A, D_B, 1.5, 2.5, tau_bm, alpha, Tsim, L[l], stat, diffStat );
-
-        t2 = std::chrono::high_resolution_clock::now();
-        
-        t12 = double(std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count())/1000000;
-
-
-        arrT [4][l][count1*Nsamples[l]+count2] = t12;
-
-        for (int d=0; d<3; d++)
-          stat_GF2 [d][l][count1*Nsamples[l]+count2] = stat[d]; 
-      }
-
-
-
-      for (int n=0; n<N; n++)
-         diffStat[n] = 0;
-
-      t1 = std::chrono::high_resolution_clock::now();
-
-      run_BM ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, Tsim, L[l], diffStat );
-
-      t2 = std::chrono::high_resolution_clock::now();
-      
- 
-      arrT [5][l][count1] = t12;
-
-      stat_BM [l][count1] = stat[3]; 
-
-      }
-
-
-  }
-
-
+    }
 
   // averages computing
   double stat_aGF1av[3][nL],stat_aGF2av[3][nL],stat_hybGFav[3][nL], stat_GF1av[3][nL],stat_GF2av[3][nL],stat_BMav[nL];
@@ -319,37 +307,39 @@ void fig5_8 ( double D_A, double D_B, double R_A, double R_B ) {
   }
 
 
-
-    std::cout << std::setprecision(5)<< std::fixed;
-
   for ( int l=0; l<nL; l++){
 
-      std::cout << int(L[l]) << "\t" << arrTav [0][l] << "\t" << arrTav[1][l] << "\t" << arrTav[2][l] << "\t" << arrTav[3][l] << "\t" << arrTav[4][l] << "\t" << arrTav[5][l];
-      std::cout << "\t" << arrTsd [0][l] << "\t" << arrTsd[1][l] << "\t" << arrTsd[2][l] << "\t" << arrTsd[3][l] << "\t" << arrTsd[4][l] << "\t" << arrTsd[5][l] << std::endl;
+      printf( "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t",
+              L[l], arrTav[0][l], arrTav[1][l], arrTav[2][l], arrTav[3][l], arrTav[4][l], arrTav[5][l],
+              arrTsd [0][l], arrTsd[1][l], arrTsd[2][l], arrTsd[3][l], arrTsd[4][l], arrTsd[5][l] );
 
   }
-    std::cout <<std:: endl;
-
-    std::cout << std::setprecision(1);
-
-  for ( int l=0; l<nL; l++){
-      std::cout << int(L[l]) << "\t" << stat_aGF1av[0][l] << "\t" << stat_aGF2av[0][l] << "\t" << stat_hybGFav[0][l] << "\t" << stat_GF1av[0][l] << "\t" << stat_GF2av[0][l];
-      std::cout << "\t" << stat_aGF1sd[0][l] << "\t" << stat_aGF2sd[0][l] << "\t" <<stat_hybGFsd[0][l] << "\t" << stat_GF1sd[0][l] << "\t" << stat_GF2sd[0][l] << std::endl;
-  }
-    std::cout << std::endl;
-
-  for ( int l=0; l<nL; l++){
-      std::cout << int(L[l]) << "\t" << stat_aGF1av[1][l]<< "\t" << stat_aGF2av[1][l] << "\t" << stat_hybGFav[1][l] << "\t" << stat_GF1av[1][l]<< "\t" << stat_GF2av[1][l];
-      std::cout << "\t" << stat_aGF1sd [1][l] << "\t" << stat_aGF2sd [1][l] << "\t" << stat_hybGFsd [1][l] << "\t" << stat_GF1sd[1][l] << "\t" << stat_GF2sd[1][l] << std::endl;
-  }
-    std::cout << std::endl;
+    printf("\n\n");
 
 
   for ( int l=0; l<nL; l++){
-      std::cout << int(L[l]) << "\t" << stat_aGF1av[2][l] << "\t" << stat_aGF2av[2][l] << "\t" << stat_hybGFav[2][l] << "\t" << stat_GF1av[2][l] << "\t" << stat_GF2av[2][l];
-      std::cout << "\t" << stat_aGF1sd [2][l] << "\t" << stat_aGF2sd [2][l] << "\t"  << stat_hybGFsd [2][l] << "\t" << stat_GF1sd[2][l] << "\t" << stat_GF2sd[2][l] << std::endl;
+      printf("%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t",
+             L[l], stat_aGF1av[0][l],stat_aGF2av[0][l], stat_hybGFav[0][l], stat_GF1av[0][l], stat_GF2av[0][l],
+             stat_aGF1sd[0][l], stat_aGF2sd[0][l],stat_hybGFsd[0][l],stat_GF1sd[0][l],stat_GF2sd[0][l]);
   }
-    std::cout << std::endl;
+    printf("\n\n");
+
+    for ( int l=0; l<nL; l++){
+        printf("%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t",
+               L[l], stat_aGF1av[1][l],stat_aGF2av[1][l], stat_hybGFav[1][l], stat_GF1av[1][l], stat_GF2av[1][l],
+               stat_aGF1sd[1][l], stat_aGF2sd[1][l],stat_hybGFsd[1][l],stat_GF1sd[1][l],stat_GF2sd[1][l]);
+    }
+    printf("\n\n");
+
+    for ( int l=0; l<nL; l++){
+        printf("%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t",
+               L[l], stat_aGF1av[2][l],stat_aGF2av[2][l], stat_hybGFav[2][l], stat_GF1av[2][l], stat_GF2av[2][l],
+               stat_aGF1sd[2][l], stat_aGF2sd[2][l],stat_hybGFsd[2][l],stat_GF1sd[2][l],stat_GF2sd[2][l]);
+    }
+    printf("\n\n");
+
+
+
 
 
 }

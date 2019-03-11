@@ -18,9 +18,9 @@ void run_aGF1 ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, doub
 
 	const double sqrt2TAU_BM = sqrt(2*tau_bm);
 
-	const int N = N_A + N_B;
+	int N = N_A + N_B;
 
-	particle particles [N]; 
+	struct particle particles [N];
 	double distRow [N];
  	double shells [N];	
 	int partList [N];
@@ -30,32 +30,34 @@ void run_aGF1 ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, doub
 
     initShell_aGF ( particles, r, N, tau_bm, sqrt2TAU_BM, L, &stat[1]);
 
-	std::sort ( particles, particles+N, compareTime );
+	qsort ( particles, N, sizeof(struct particle), compareTime );
+
     for (int n=0; n<N; n++) partList[n]=n;
 
-//	std::cout << "--------------------------------------------------------------------------------------------------------------------------\n";
-//	std::cout << std::setprecision (7);
 //	printPos_per ( particles, partList, N );
-//	// printDist_per (particles, partList, N, L);
-//	std::cout << "\n";
+
+	int count = 0;
 
     while ( particles[partList[0]].tau_exit < Tsim ) {
 
-		// mycount++;
-		// if (mycount==10) exit(EXIT_FAILURE);
 
     	if ( particles[partList[0]].burst == true ) stat[0]++;
 
+		count ++;
+		if (count == 10){
+			exit(0);
+		}
 
 //		 std::cout << "--------------------------------------------------------------------------------------------------------------------------\n";
 //		 std::cout << std::setprecision (7);
-//		 printPos_per ( particles, partList, N );
+		 printPos_per ( particles, partList, N );
 //		 // printDist_per (particles, partList, N, L);
 //		 std::cout << "\n";
 
-		updatePart_aGF ( &particles[partList[0]], r, tau_bm, L );    
+//		printf("almost update\n\n");
+		updatePart_aGF ( &particles[partList[0]], r, tau_bm, L );
 
-		// printPos_per ( particles, partList, N );
+		 printPos_per ( particles, partList, N );
 		// // printDist_per (particles, partList, N, L);
 		// cout << "\n";
 
@@ -65,12 +67,12 @@ void run_aGF1 ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, doub
 
 		getDist ( particles, partList, distRow, &maxSh, N, L );
 
-		burst_P_aGF ( particles, partList, distRow, r, N, partList[0], L); 
+		burst_P_aGF ( particles, partList, distRow, r, N, partList[0], L);
 
 		//In case the max shell allowed is smaller than the smallest possible a BM integration step is performed
 		if ( maxSh > particles[partList[0]].R_bd)
 			R = getR_aGF ( particles, partList, shells, distRow, N, L );
-		else 
+		else
 			R = 0;
 
 		particles[partList[0]].burst = false;
@@ -85,9 +87,10 @@ void run_aGF1 ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, doub
 		}
 		else{
 
-			stat[2]++; 
+			stat[2]++;
 			BMstep ( particles, partList, distRow, r, tau_bm, sqrt2TAU_BM, N, L );
 			particles[partList[0]].gf = false;
+
 		}
 
 		sortBurst ( particles, partList, N);
