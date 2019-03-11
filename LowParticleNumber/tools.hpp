@@ -142,13 +142,13 @@ void getDist ( struct particle *particles, int* partList, double *distRow, doubl
 
 double min_element (double *arr, int init, int N){
 
-    double min = arr[0];
+    double min = arr[init];
 
-    for (int i=init; i<N-1; i++){
+    for (int i=init+1; i<N; i++){
 
-        if (arr[i+1]<arr[i]){
+        if (arr[i]<min){
 
-            min = arr[i+1];
+            min = arr[i];
 
         }
     }
@@ -291,15 +291,14 @@ void updatePart_aGF ( struct particle *P, gsl_rng *r, double dt, double L ) {
 // updates are already performed in case of bursting
 
   if ( P->burst == false ) {
-      printf("inside\n");
-      printf("%lf\t%lf\n",P->time ,P->tau_exit);
+//      printf("inside\n");
+//      printf("%lf\t%lf\n",P->time ,P->tau_exit);
     P->pos[0] = P->pos_exit[0];
     P->pos[1] = P->pos_exit[1];
     P->pos[2] = P->pos_exit[2];
     P->shell = 0;
     P->time = P->tau_exit;
-      printf("%lf\t%lf\n",P->time ,P->tau_exit);
-
+//      printf("%lf\t%lf\n",P->time ,P->tau_exit);
   
   }
   if ( P->gf == true ){

@@ -13,6 +13,10 @@ void burst_P_aGF ( struct particle *particles, int *partList, double *distRow, g
 
     if (  particles[jPart].gf == true  &&  distRow[j] - particles[jPart].shell < particles[iPart].burstR ) {
 
+        if (particles[jPart].shell < 0.1){
+            printf("error\n\n");
+            exit(0);
+        }
       particles[jPart].burst = true;  
       particles[jPart].gf = false;
 
@@ -92,6 +96,7 @@ void burst_P_GF ( struct particle *particles, int *partList, double *distRow, gs
 
 
     if ( particles[jPart].gf == true && distRow[j] - particles[jPart].shell < particles[iPart].burstR ){
+//        printf("dist: %lf\n",distRow[j]);
 
       particles[jPart].burst = true;  
       particles[jPart].gf = false;
@@ -99,7 +104,7 @@ void burst_P_GF ( struct particle *particles, int *partList, double *distRow, gs
       //The P function is not sampled at very small times, when the survival function S can be approximated to 1      
       if (particles[iPart].time-particles[jPart].time >
               (particles[jPart].shell*particles[jPart].shell)/particles[jPart].Diff/1000){
-      
+
         polarTransf ( deltaPos, drawPosNewt ( particles[iPart].time-particles[jPart].time,  particles[jPart].shell,
                                               particles[jPart].Diff, gsl_rng_uniform(r) ),
                       gsl_rng_uniform (r), gsl_rng_uniform (r) );

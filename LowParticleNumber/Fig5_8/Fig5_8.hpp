@@ -32,12 +32,12 @@ void fig5_8 ( double D_A, double D_B, double R_A, double R_B ) {
 
     double tau_bm=0.1;
     long int nINTsteps;
-    int POWsteps=7;
+    int POWsteps=6;
     const int N = 10;
     const int N_A = 5;
     const int N_B = 5;
     double alpha = 9.;
-    int BMsamples = 1;
+    int BMsamples = 2;
 
 
     clock_t start_t, end_t, total_t;
@@ -80,7 +80,7 @@ void fig5_8 ( double D_A, double D_B, double R_A, double R_B ) {
 
                 end_t = clock();
 
-                total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+                total_t = (double)(end_t - start_t);
 
                 arrT [0][l][count1*Nsamples[l]+count2] = total_t;
 
@@ -95,11 +95,11 @@ void fig5_8 ( double D_A, double D_B, double R_A, double R_B ) {
 
                 start_t = clock();
 
-//                run_aGF2 ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, alpha, Tsim, L[l], stat, diffStat );
+                run_aGF2 ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, alpha, Tsim, L[l], stat, diffStat );
 
                 end_t = clock();
 
-                total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+                total_t = (double)(end_t - start_t);
 
                 arrT [1][l][count1*Nsamples[l]+count2] = total_t;
 
@@ -113,11 +113,11 @@ void fig5_8 ( double D_A, double D_B, double R_A, double R_B ) {
 
                 start_t = clock();
 
-//                run_hybGF ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, alpha, Tsim, L[l], stat, diffStat );
+                run_hybGF ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, alpha, Tsim, L[l], stat, diffStat );
 
                 end_t = clock();
 
-                total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+                total_t = (double)(end_t - start_t);
 
                 arrT [2][l][count1*Nsamples[l]+count2] = total_t;
 
@@ -131,11 +131,11 @@ void fig5_8 ( double D_A, double D_B, double R_A, double R_B ) {
 
                 start_t = clock();
 
-//                run_GF ( N_A, N_B, R_A, R_B, D_A, D_B, 1.,1., tau_bm, alpha, Tsim, L[l], stat, diffStat );
+                run_GF ( N_A, N_B, R_A, R_B, D_A, D_B, 1.,1., tau_bm, alpha, Tsim, L[l], stat, diffStat );
 
                 end_t = clock();
 
-                total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+                total_t = (double)(end_t - start_t);
 
 
                 arrT [3][l][count1*Nsamples[l]+count2] = total_t;
@@ -151,16 +151,17 @@ void fig5_8 ( double D_A, double D_B, double R_A, double R_B ) {
 
                 start_t = clock();
 
-//                run_GF ( N_A, N_B, R_A, R_B, D_A, D_B, 1.5, 2.5, tau_bm, alpha, Tsim, L[l], stat, diffStat );
+                run_GF ( N_A, N_B, R_A, R_B, D_A, D_B, 1.5, 2.5, tau_bm, alpha, Tsim, L[l], stat, diffStat );
 
                 end_t = clock();
 
-                total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+                total_t = (double)(end_t - start_t);
 
                 arrT [4][l][count1*Nsamples[l]+count2] = total_t;
 
                 for (int d=0; d<3; d++)
                     stat_GF2 [d][l][count1*Nsamples[l]+count2] = stat[d];
+
             }
 
 
@@ -169,14 +170,15 @@ void fig5_8 ( double D_A, double D_B, double R_A, double R_B ) {
 
         start_t = clock();
 
-//        run_BM ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, Tsim, L[l], diffStat );
+        run_BM ( N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, Tsim, L[l], diffStat );
 
         end_t = clock();
 
+        total_t = (double)(end_t - start_t);
 
-        arrT [5][l][count1] = t12;
+        arrT [5][l][count1] = total_t;
 
-//        stat_BM [l][count1] = stat[3];
+        stat_BM [l][count1] = stat[3];
 
         }
 
@@ -309,7 +311,7 @@ void fig5_8 ( double D_A, double D_B, double R_A, double R_B ) {
 
   for ( int l=0; l<nL; l++){
 
-      printf( "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t",
+      printf( "%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
               L[l], arrTav[0][l], arrTav[1][l], arrTav[2][l], arrTav[3][l], arrTav[4][l], arrTav[5][l],
               arrTsd [0][l], arrTsd[1][l], arrTsd[2][l], arrTsd[3][l], arrTsd[4][l], arrTsd[5][l] );
 
@@ -317,26 +319,26 @@ void fig5_8 ( double D_A, double D_B, double R_A, double R_B ) {
     printf("\n\n");
 
 
-  for ( int l=0; l<nL; l++){
-      printf("%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t",
-             L[l], stat_aGF1av[0][l],stat_aGF2av[0][l], stat_hybGFav[0][l], stat_GF1av[0][l], stat_GF2av[0][l],
-             stat_aGF1sd[0][l], stat_aGF2sd[0][l],stat_hybGFsd[0][l],stat_GF1sd[0][l],stat_GF2sd[0][l]);
-  }
-    printf("\n\n");
-
-    for ( int l=0; l<nL; l++){
-        printf("%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t",
-               L[l], stat_aGF1av[1][l],stat_aGF2av[1][l], stat_hybGFav[1][l], stat_GF1av[1][l], stat_GF2av[1][l],
-               stat_aGF1sd[1][l], stat_aGF2sd[1][l],stat_hybGFsd[1][l],stat_GF1sd[1][l],stat_GF2sd[1][l]);
-    }
-    printf("\n\n");
-
-    for ( int l=0; l<nL; l++){
-        printf("%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t",
-               L[l], stat_aGF1av[2][l],stat_aGF2av[2][l], stat_hybGFav[2][l], stat_GF1av[2][l], stat_GF2av[2][l],
-               stat_aGF1sd[2][l], stat_aGF2sd[2][l],stat_hybGFsd[2][l],stat_GF1sd[2][l],stat_GF2sd[2][l]);
-    }
-    printf("\n\n");
+//  for ( int l=0; l<nL; l++){
+//      printf("%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t",
+//             L[l], stat_aGF1av[0][l],stat_aGF2av[0][l], stat_hybGFav[0][l], stat_GF1av[0][l], stat_GF2av[0][l],
+//             stat_aGF1sd[0][l], stat_aGF2sd[0][l],stat_hybGFsd[0][l],stat_GF1sd[0][l],stat_GF2sd[0][l]);
+//  }
+//    printf("\n\n");
+//
+//    for ( int l=0; l<nL; l++){
+//        printf("%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t",
+//               L[l], stat_aGF1av[1][l],stat_aGF2av[1][l], stat_hybGFav[1][l], stat_GF1av[1][l], stat_GF2av[1][l],
+//               stat_aGF1sd[1][l], stat_aGF2sd[1][l],stat_hybGFsd[1][l],stat_GF1sd[1][l],stat_GF2sd[1][l]);
+//    }
+//    printf("\n\n");
+//
+//    for ( int l=0; l<nL; l++){
+//        printf("%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t",
+//               L[l], stat_aGF1av[2][l],stat_aGF2av[2][l], stat_hybGFav[2][l], stat_GF1av[2][l], stat_GF2av[2][l],
+//               stat_aGF1sd[2][l], stat_aGF2sd[2][l],stat_hybGFsd[2][l],stat_GF1sd[2][l],stat_GF2sd[2][l]);
+//    }
+//    printf("\n\n");
 
 
 
