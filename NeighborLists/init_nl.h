@@ -1,8 +1,10 @@
-void initPos_aGF_nl ( particle_nl *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B, double D_A, double D_B,
+// author luigisbailo
+
+
+void initPos_aGF_nl ( struct particle_nl *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B, double D_A, double D_B,
                       double tau_bm, double alpha, double L, double boxSizeGF ) {
 
   double x,y,z;
-
 
   for (int count=0; count < N_A+N_B; count++){
 
@@ -29,9 +31,9 @@ void initPos_aGF_nl ( particle_nl *particles, gsl_rng *r, int N_A, int N_B, doub
     particles[count].pos_period[0] = 0;
     particles[count].pos_period[1] = 0;
     particles[count].pos_period[2] = 0;
-    particles[count].idxBox [0] = trunc(x/boxSizeGF);
-    particles[count].idxBox [1] = trunc(y/boxSizeGF);
-    particles[count].idxBox [2] = trunc(z/boxSizeGF);
+    particles[count].idxBox [0] = (int) trunc(x/boxSizeGF);
+    particles[count].idxBox [1] = (int) trunc(y/boxSizeGF);
+    particles[count].idxBox [2] = (int) trunc(z/boxSizeGF);
 
     if (count < N_A){        
 
@@ -59,7 +61,7 @@ void initPos_aGF_nl ( particle_nl *particles, gsl_rng *r, int N_A, int N_B, doub
 }
 
 
-void initPos_GF_nl ( particle_nl *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B, double D_A, double D_B,
+void initPos_GF_nl ( struct particle_nl *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B, double D_A, double D_B,
                      double MU_BM, double MU_GF, double tau_bm, double alpha, double L, double boxSizeGF ) {
 
   double x,y,z;
@@ -125,11 +127,10 @@ void initPos_GF_nl ( particle_nl *particles, gsl_rng *r, int N_A, int N_B, doubl
 }
 
 
-void initPos_BM_nl ( particle_nl *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B, double D_A, double D_B,
+void initPos_BM_nl ( struct particle_nl *particles, gsl_rng *r, int N_A, int N_B, double R_A, double R_B, double D_A, double D_B,
                      double tau_bm, double L, double boxSize) {
 
   double x,y,z;
-// cout << D_A << "\t" << D_B << endl;
 
   for (int count=0; count < N_A+N_B; count++){
 
@@ -166,7 +167,6 @@ void initPos_BM_nl ( particle_nl *particles, gsl_rng *r, int N_A, int N_B, doubl
       particles[count].sqrtDiff = sqrt(D_A); 
       particles[count].radius = R_A;
       
-// cout << particles[count].sqrtDiff << endl;
     }
     else{
 
@@ -174,7 +174,6 @@ void initPos_BM_nl ( particle_nl *particles, gsl_rng *r, int N_A, int N_B, doubl
       particles[count].sqrtDiff = sqrt(D_B); 
       particles[count].radius = R_B;
 
-// cout << particles[count].sqrtDiff << endl;
 
     }
   }
@@ -182,7 +181,7 @@ void initPos_BM_nl ( particle_nl *particles, gsl_rng *r, int N_A, int N_B, doubl
 
 
 
-void initShell_aGF_nl ( particle_nl *particles, std::vector<std::vector<int>> *grid, double *distRow, int *distLabel,
+void initShell_aGF_nl ( struct particle_nl *particles, struct boxcell *grid, double *distRow, int *distLabel,
                         gsl_rng *r, int N, double tau_bm, double sqrt2TAU_BM, double maxShell, double L, int nBoxes,
                         int *stat ) {
 
@@ -200,7 +199,7 @@ void initShell_aGF_nl ( particle_nl *particles, std::vector<std::vector<int>> *g
     Dij[0] = particles[iPart].sqrtDiff;
     j=0;
 
-    // it cycles over all particles to check whether they are within the bursting radius
+    // it loops over all particles to check whether they are within the bursting radius
     while (!(distLabel[j]<0)){
 
       int jPart = distLabel[j];
@@ -217,8 +216,6 @@ void initShell_aGF_nl ( particle_nl *particles, std::vector<std::vector<int>> *g
       j++;
 
     }
-    
-
     if ( Shell > particles[iPart].R_bd ){
 
       (*stat) ++;
@@ -234,7 +231,7 @@ void initShell_aGF_nl ( particle_nl *particles, std::vector<std::vector<int>> *g
       particles[iPart].pos_exit[2]= particles[iPart].pos[2] + deltaPos[2];
       checkBound_nl ( particles[iPart].pos_exit, particles[iPart].pos_period, L );
 
-    }      
+    }
     else {
       
       particles[iPart].tau_exit += tau_bm;
@@ -250,7 +247,7 @@ void initShell_aGF_nl ( particle_nl *particles, std::vector<std::vector<int>> *g
 }
 
 
-void initShell_GF_nl ( particle_nl *particles, std::vector<std::vector<int>> *grid, double *distRow, int *distLabel,
+void initShell_GF_nl ( struct particle_nl *particles, struct boxcell *grid, double *distRow, int *distLabel,
                        gsl_rng *r, int N, double tau_bm, double sqrt2TAU_BM, double maxShell, double L, int nBoxes,
                        int *stat ) {
 
@@ -319,48 +316,48 @@ void initShell_GF_nl ( particle_nl *particles, std::vector<std::vector<int>> *gr
 
 
 
-void initGridGF_nl (particle_nl *particles, std::vector <std::vector <int>> *grid,
-                    int NlimBox, int nBoxesGF, double boxSizeGF, int N ) {
+void initGridGF_nl (struct particle_nl *particles, struct boxcell *grid,
+                    int nBoxesGF, double boxSizeGF, int N ) {
 
   for ( int i=0; i<nBoxesGF; i++){
     for ( int j=0; j<nBoxesGF; j++){
       for ( int k=0; k<nBoxesGF; k++){
 
-        (*grid) [i*nBoxesGF*nBoxesGF + j*nBoxesGF +k][0]=0;
-        for ( int n=1; n<NlimBox; n++){
+        grid [i*nBoxesGF*nBoxesGF + j*nBoxesGF +k].element[0]=0;
+        for ( int n=1; n<NLIMBOX; n++){
 
-          (*grid) [i*nBoxesGF*nBoxesGF + j*nBoxesGF +k][n]=-1;
+          grid [i*nBoxesGF*nBoxesGF + j*nBoxesGF +k].element[n]=-1;
+
         }          
-
       }
     }
   }
 
+
   int i,j,k;
   for ( int n=0; n<N; n++){
 
-    i=trunc(particles[n].pos[0]/boxSizeGF);
-    j=trunc(particles[n].pos[1]/boxSizeGF);
-    k=trunc(particles[n].pos[2]/boxSizeGF);
-
-    (*grid)[i*nBoxesGF*nBoxesGF + j*nBoxesGF +k][0]++;
-    (*grid)[i*nBoxesGF*nBoxesGF + j*nBoxesGF +k][(*grid)[i*nBoxesGF*nBoxesGF + j*nBoxesGF +k][0]]=n;
+    i=(int)trunc(particles[n].pos[0]/boxSizeGF);
+    j=(int)trunc(particles[n].pos[1]/boxSizeGF);
+    k=(int)trunc(particles[n].pos[2]/boxSizeGF);
+    grid[i*nBoxesGF*nBoxesGF + j*nBoxesGF +k].element[0]++;
+    grid[i*nBoxesGF*nBoxesGF + j*nBoxesGF +k].element[grid[i*nBoxesGF*nBoxesGF + j*nBoxesGF +k].element[0]]=n;
 
   }
 
 }
 
 
-void initGridBM_nl ( particle_nl *particles, std::vector <std::vector<int>> *grid, int NlimBox,
+void initGridBM_nl ( struct particle_nl *particles, struct boxcell *grid,
                      int nBoxes, double boxSize, int N){
 
 
   for ( int i=0; i<nBoxes; i++){
     for ( int j=0; j<nBoxes; j++){
       for ( int k=0; k<nBoxes; k++){
-        (*grid) [i*nBoxes*nBoxes + j*nBoxes +k][0]=0;
-        for ( int n=1; n<NlimBox; n++){
-          (*grid) [i*nBoxes*nBoxes + j*nBoxes +k][n]=-1;
+        grid [i*nBoxes*nBoxes + j*nBoxes +k].element[0]=0;
+        for ( int n=1; n<NLIMBOX; n++){
+          grid [i*nBoxes*nBoxes + j*nBoxes +k].element[n]=-1;
         }          
 
       }
@@ -374,10 +371,9 @@ void initGridBM_nl ( particle_nl *particles, std::vector <std::vector<int>> *gri
     j=trunc(particles[n].pos[1]/boxSize);
     k=trunc(particles[n].pos[2]/boxSize);
 
-    (*grid)[i*nBoxes*nBoxes + j*nBoxes +k][0]++;
-    (*grid)[i*nBoxes*nBoxes + j*nBoxes +k][(*grid)[i*nBoxes*nBoxes + j*nBoxes +k][0]]=n;
+    grid[i*nBoxes*nBoxes + j*nBoxes +k].element[0]++;
+    grid[i*nBoxes*nBoxes + j*nBoxes +k].element[grid[i*nBoxes*nBoxes + j*nBoxes +k].element[0]]=n;
 
   }
-
 
 }

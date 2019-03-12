@@ -1,3 +1,6 @@
+// author luigisbailo
+
+
 void tab1 ( double L) {
 
   int nN = 2;
@@ -8,11 +11,11 @@ void tab1 ( double L) {
   N[0] = 100;
   N[1] = 1000;
 
-  double D_A=0.01;
-  double D_B=0.01;
-  double R_A=2.5;
-  double R_B=2.5;
-  double tau_bm=0.1;
+  double D_A = 0.01;
+  double D_B = 0.01;
+  double R_A = 2.5;
+  double R_B = 2.5;
+  double tau_bm = 0.1;
   double alpha = 9.;
   int BMsamples = 1;
 
@@ -28,8 +31,8 @@ void tab1 ( double L) {
   maxSh_aGF[1]=2.5;
   BMgrid = 5;
 
-  std::chrono::high_resolution_clock::time_point t2,t1;
-  double t12, avT;
+  clock_t start_t, end_t, total_t;
+  double avT;
 
   nINTsteps = pow (10,POWsteps);
   const double Tsim = nINTsteps*tau_bm;
@@ -59,15 +62,15 @@ void tab1 ( double L) {
         for (int d=0; d<3; d++)
          stat[d] = 0;
 
-        t1 = std::chrono::high_resolution_clock::now();
-
+          start_t = clock();
+          
         run_aGF_nl ( N[l], 0, R_A, R_B, D_A, D_B, tau_bm, alpha, Tsim, L, maxSh_aGF[l], stat );
 
-        t2 = std::chrono::high_resolution_clock::now();
-        
-        t12 = double(std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count())/1000000;
+        end_t = clock();
 
-        arrT [0][l][count1*Nsamples[l]+count2] = t12;
+        total_t = (double)(end_t - start_t);
+
+        arrT [0][l][count1*Nsamples[l]+count2] = total_t;
 
         for (int d=0; d<3; d++)
           stat_aGF [d][l][count1*Nsamples[l]+count2] = stat[d]; 
@@ -76,31 +79,31 @@ void tab1 ( double L) {
         for (int d=0; d<3; d++)
           stat[d] = 0;
 
-        t1 = std::chrono::high_resolution_clock::now();
+          start_t = clock();
 
         run_GF_nl ( N[l], 0, R_A, R_B, D_A, D_B, 1.,1., tau_bm, alpha, Tsim, L, maxSh_GF[l], stat);
 
-        t2 = std::chrono::high_resolution_clock::now();
-        
-        t12 = double(std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count())/1000000;
+          end_t = clock();
+
+          total_t = (double)(end_t - start_t);
 
 
-        arrT [1][l][count1*Nsamples[l]+count2] = t12;
+        arrT [1][l][count1*Nsamples[l]+count2] = total_t;
 
         for (int d=0; d<3; d++)
           stat_GF1 [d][l][count1*Nsamples[l]+count2] = stat[d]; 
 
       }
 
-      t1 = std::chrono::high_resolution_clock::now();
+        start_t = clock();
 
       run_BM_nl ( N[l], 0, R_A, R_B, D_A, D_B, tau_bm, Tsim, L, BMgrid);
 
-      t2 = std::chrono::high_resolution_clock::now();
-      
-      t12 = double(std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count())/1000000;
+        end_t = clock();
 
-      arrT [3][l][count1] = t12;
+        total_t = (double)(end_t - start_t);
+
+        arrT [3][l][count1] = total_t;
 
       }
 
@@ -211,31 +214,33 @@ void tab1 ( double L) {
 
   for ( int l=0; l<nN; l++){
 
-    std::cout << int(N[l]) << "\t" << arrTav [0][l] << "\t" << arrTav[1][l] << "\t" << arrTav[3][l];
-    std::cout << "\t" << arrTsd [0][l] << "\t" << arrTsd[1][l]  << "\t" << arrTsd[3][l] << std::endl;
+    printf ("%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
+            N[l], arrTav [0][l], arrTav[1][l], arrTav[3][l], arrTsd [0][l], arrTsd[1][l], arrTsd[3][l]);
 
   }
-  std::cout << std::endl;
 
+  printf ("\n\n");
 
   for ( int l=0; l<nN; l++){
-    std::cout << int(N[l]) << "\t" << stat_aGFav[0][l] << "\t" << stat_GF1av[0][l] ;
-    std::cout << "\t" << stat_aGFsd[0][l] << "\t" << stat_GF1sd[0][l]  << std::endl;
+    printf ("%d\t%lf\t%lf\t%lf\t%lf\t",
+            N[l],stat_aGFav[0][l],stat_GF1av[0][l],stat_aGFsd[0][l],stat_GF1sd[0][l]);
   }
-  std::cout << std::endl;
+
+  printf ("\n\n");
 
   for ( int l=0; l<nN; l++){
-    std::cout << int(N[l]) << "\t" << stat_aGFav[1][l] << "\t" << stat_GF1av[1][l];
-    std::cout << "\t" << stat_aGFsd [1][l] << "\t" << stat_GF1sd[1][l]  << std::endl;
+    printf ("%d\t%lf\t%lf\t%lf\t%lf\t",
+            N[l],stat_aGFav[1][l],stat_GF1av[1][l],stat_aGFsd [1][l],stat_GF1sd[1][l]);
   }
-  std::cout << std::endl;
 
+  printf ("\n\n");
 
   for ( int l=0; l<nN; l++){
-    std::cout << int(N[l]) << "\t" << stat_aGFav[2][l] << "\t" << stat_GF1av[2][l] ;
-    std::cout << "\t" << stat_aGFsd [2][l] << "\t" << stat_GF1sd[2][l] << std::endl;
+    printf ("%d\t%lf\t%lf\t%lf\t%lf\t",
+            N[l],stat_aGFav[2][l],stat_GF1av[2][l],stat_aGFsd [2][l],stat_GF1sd[2][l]);
   }
-  std::cout << std::endl;
+
+  printf ("\n\n");
 
 
 }

@@ -1,11 +1,7 @@
-// author luigisbailo
-
-
 void fig4 () {
 
 
-	std::chrono::high_resolution_clock::time_point tGF1,tGF2,tBM1,tBM2;
-	double tGF,tBM;
+	clock_t start_tGF, end_tGF, total_tGF, start_tBM, end_tBM, total_tBM;
 
 	const gsl_rng_type *Type;
 	gsl_rng *r;
@@ -41,7 +37,7 @@ void fig4 () {
 				b += dr;
 
 
-		    	tGF1 = std::chrono::high_resolution_clock::now();
+				start_tGF = clock();
 
 				for ( int count=0; count<Nsamples; count++) {
 
@@ -49,13 +45,11 @@ void fig4 () {
 
 				}
 
-				tGF2 = std::chrono::high_resolution_clock::now();
+				end_tGF = clock();
 
-				tGF = std::chrono::duration_cast<std::chrono::microseconds>(tGF2-tGF1).count();
+				total_tGF = (double)(end_tGF - start_tGF) ;
 
-				// cout << tGF << endl;
-
-		    	tBM1 = std::chrono::high_resolution_clock::now();
+				start_tBM = clock();
 
 				for ( int count=0; count<Nsamples; count++) {
 
@@ -72,7 +66,7 @@ void fig4 () {
 						y += BFvar * gsl_ran_gaussian (r,1);
 						z += BFvar * gsl_ran_gaussian (r,1);
 
-						for (int count=0; count<9; count++)
+						for (int count2=0; count2<9; count2++)
 							dist = (pos[0]-x)*(pos[0]-x) + (pos[1]-y)*(pos[1]-y) + (pos[2]-z)*(pos[2]-z);
 
 
@@ -82,14 +76,13 @@ void fig4 () {
 
 				}
 
-				tBM2 = std::chrono::high_resolution_clock::now();
+				end_tBM = clock();
 
-				tBM = std::chrono::duration_cast<std::chrono::microseconds>(tBM2-tBM1).count();
-				// cout << tBM << endl;
-
+				total_tBM = (double)(end_tBM - start_tBM);
 
 
-			} while ( tGF>tBM);
+
+			} while ( total_tGF>total_tBM);
 
 			rho[idx] += b;
 			idx ++;
@@ -98,7 +91,10 @@ void fig4 () {
 	
 	}
 
-	for (int idx=0; idx <10; idx++)
-		std::cout << 0.001*(idx+1) << "\t" << rho[idx]/10 << std::endl;
+	for (int idx=0; idx <10; idx++) {
+
+		printf("%lf\t%lf\n", 0.001 * (idx + 1), rho[idx] / 10);
+
+	}
 
 }

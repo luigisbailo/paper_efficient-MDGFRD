@@ -23,16 +23,13 @@ double Sfunct ( double t, double b, double D) {
       S += term;
       m += 2;
 
-    } while ( abs (term) > conv );
+    } while ( fabs (term) > conv );
 
     S = 1-S;
   }
   else 
     S = 0;
 
-
-
-  // return m-1;
   return S;
 
 }
@@ -56,20 +53,16 @@ double Sfunct_init ( double tau, double radius, double t, double b, double D) {
       termB = pow (coeff1,(m+1)*(m+1))*sin((m+1)*M_PI*radius/b)/radius/(m+1);
       term = coeff2 * (termA-termB);
 
-
       S += term;
       m += 2;
 
-    } while ( abs (term) > conv );
+    } while ( fabs (term) > conv );
 
     S = 1-S;
   }
   else 
     S = 0;
 
-
-
-  // return m-1;
   return S;
 
 }
@@ -99,21 +92,18 @@ double Sder ( double t, double b, double D) {
       termD = (m+1)*(m+1);
       term = coeff2 * ( termA*termB - termC*termD );
 
-      // cout << m << "\t" << pow(coeff1,m*m) << endl;
-      // cout << m+1 << "\t" << pow(coeff1,(m+1)*(m+1)) << "\t" << term << endl;
-
       S += term;
       m += 2;
 
-    } while ( abs (term) > conv | termC > termD/100 | S < 0 );
-    //The second condition takes into account that the series, for short times, can be negative in the beginning, because of the term m*m 
+    } while ( fabs (term) > conv | termC > termD/100 | S < 0 );
+    //The second condition takes into account that the series, for short times, can be negative in the beginning,
+    // because of the term m*m
     //The series, when the term m*m  is dominant at short times, grows to a peak, and then finally deceases to zero
     //The S<0 condition is to ensure a longer convergence for short times
   }
   else 
     S = 0;
 
-  // return m-1;
   return S;
 
 }
@@ -141,14 +131,10 @@ double Sder2 ( double t, double b, double D) {
         termD = (m+1)*(m+1)*(m+1)*(m+1);
         term =  ( termA*termB - termC*termD );
 
-      // cout << m << "\t" << pow(coeff1,m*m) << endl;
-      // cout << m+1 << "\t" << pow(coeff1,(m+1)*(m+1)) << "\t" << term << endl;
-
         S += term;
         m += 2;
 
-    } while ( abs (term) > conv | termC > termD/100  );
-
+    } while ( fabs (term) > conv | termC > termD/100  );
 
   return S*coeff2;
 
@@ -164,8 +150,6 @@ double Pfunct ( double radius, double t, double b, double D, double S ) {
   int m;
   double conv = 0.00000001/b;
 
-  // cout << radius << "\t" << t << "\t" << b << "\t" << D << endl;
-
   P = 0;
   m = 1;
       
@@ -176,15 +160,10 @@ double Pfunct ( double radius, double t, double b, double D, double S ) {
     term =  coeff2 * termA * termB / (1-S);
     P += term;
     m += 1;
-    // cout << m << "\t" << termA << "\t" << termB << "\t" << term2 <<endl;
 
-  } while ( abs(term) > conv  |  termA>termB/100 );
+  } while ( fabs(term) > conv  |  termA>termB/100 );
 
-  // cout << P << endl;
-
-  // return m-1;
-  return P;  
-
+  return P;
 
 }
 
@@ -207,16 +186,12 @@ double Pder ( double radius, double t, double b, double D, double S ) {
     termA = pow(coeff1,m*m);
     termB = sin (m*M_PI*radius/b) * m * radius;
     term = coeff2 * termA * termB / (1-S);
-    // cout << m << "\t" << term2 << endl;
+
     P += term;
     m += 1;
 
-  // } while ( abs (term2 - term1) > P_CONVERGENCE | termA>termB/100);
-  } while ( abs(term) > conv  |  termA>termB/100 );
+  } while ( fabs(term) > conv  |  termA>termB/100 );
 
-  // cout << P << endl;
-
-  // return m-1;
   return P;
 }
 
@@ -242,9 +217,7 @@ double Pder2 ( double radius, double t, double b, double D, double S ) {
     P += term;
     m += 1;
 
-  } while ( abs (term) > conv | termA>termB/100 );
-
-
+  } while ( fabs (term) > conv | termA>termB/100 );
 
   return P*coeff2;
 
@@ -260,8 +233,6 @@ double qFunct ( double radius, double t, double b, double D ) {
   int m;
   double conv = 0.00000000001/(b*b/D);
 
-  // cout << radius << "\t" << t << "\t" << b << "\t" << D << endl;
-
   q = 0;
   m = 1;
       
@@ -273,14 +244,9 @@ double qFunct ( double radius, double t, double b, double D ) {
     q += term;
     m += 2;
 
-// cout << term << endl;
-
-  } while ( abs(term) > conv | m<100 );
-
+  } while ( fabs(term) > conv | m<100 );
 
   return q;  
-
-
 
 }
 
@@ -306,13 +272,10 @@ double pFunct ( double radius, double t, double b, double D ) {
     P += term;
     m += 1;
 
-  // } while ( abs (term2 - term1) > P_CONVERGENCE | termA>termB/100);
-  } while ( abs(term) > conv  |  m<20 );
+  } while ( fabs(term) > conv  |  m<20 );
 
-  // cout << P << endl;
-
-  // return m-1;
   return P;
+
 }
 
 
@@ -337,13 +300,10 @@ double pFunct_init ( double r, double t, double r0, double t0, double b, double 
     P += term;
     m += 1;
 
-  // } while ( abs (term2 - term1) > P_CONVERGENCE | termA>termB/100);
-  } while ( abs(term) > conv  |  m<20 );
+  } while ( fabs(term) > conv  |  m<20 );
 
-  // cout << P << endl;
-
-  // return m-1;
   return P;
+
 }
 
 
@@ -357,8 +317,6 @@ double PQfunct ( double radius, double t, double tau, double b, double D, double
   int m,n;
   double conv = 0.00000001/b;
 
-  // cout << radius << "\t" << t << "\t" << b << "\t" << D << endl;
-
   PQ = 0;
   m = 1;
       
@@ -369,12 +327,11 @@ double PQfunct ( double radius, double t, double tau, double b, double D, double
 
     do {
 
-
       termA =  pow( coeff1, m*m*t + n*n*(tau-t) );
 
       if ( m != n)
         termB =  m*n*sin((m-n)*M_PI*radius/b)/(m-n) - m*n*sin((m+n)*M_PI*radius/b)/(m+n);       
-      else if ( m == n )
+      else
         termB =  m*n*M_PI*radius/b - m*n*sin((m+n)*M_PI*radius/b)/(m+n); 
 
       term1 =  coeff2 * termA * termB / q;
@@ -398,16 +355,14 @@ double PQfunct ( double radius, double t, double tau, double b, double D, double
 
       n += 1;
 
-    } while (  abs (term1) > conv | termA*n*n>0.00001 | n<20 ) ;
+    } while (  fabs (term1) > conv | termA*n*n>0.00001 | n<20 ) ;
 
-    // cout << term2 << endl;
     PQ += term2;
     m += 1;
 
-  } while ( abs (term2) > conv | termA*m*m>0.00001 | m<20 );
+  } while ( fabs (term2) > conv | termA*m*m>0.00001 | m<20 );
  
-  return PQ;  
-
+  return PQ;
 
 }
 
@@ -426,7 +381,6 @@ double PQder ( double radius, double t, double tau, double b, double D, double q
   PQ = 0;
   m = 1;
 
-
   do {
 
     n = 1;
@@ -435,30 +389,23 @@ double PQder ( double radius, double t, double tau, double b, double D, double q
     do {
 
       termA = pow (coeff1, m*m*t + n*n*(tau-t) );
-
       termB = m*n*cos((m-n)*M_PI*radius/b) - m*n*cos((m+n)*M_PI*radius/b);
-
       n += 1;
-
       term1 =  coeff2 * termA * termB / q;
       term2 += term1;
-
-
       termA = pow (coeff1, m*m*t + n*n*(tau-t) );
-
       termB = m*n*cos((m-n)*M_PI*radius/b) - m*n*cos((m+n)*M_PI*radius/b);
-
       n += 1;
 
       term1 =  coeff2 * termA * termB / q;
       term2 -= term1;
 
-    } while ( abs(term1) > conv | termA*n*n>0.0000001 | n<10 );
+    } while ( fabs(term1) > conv | termA*n*n>0.0000001 | n<10 );
 
     PQ += term2;
     m += 1;
 
-  } while ( abs(term2) > conv | termA*m*m>0.00001 | m<20);
+  } while ( fabs(term2) > conv | termA*m*m>0.00001 | m<20);
 
   return PQ;
 

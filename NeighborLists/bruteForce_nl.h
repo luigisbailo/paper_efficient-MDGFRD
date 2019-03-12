@@ -1,8 +1,12 @@
+// author luigisbailo
+
+
 #pragma once
 
 
-void BFstep_nl ( particle_nl *particles, std::vector<std::vector<int>> *grid, gsl_rng *r, int nBoxes, double boxSize, double tau_bm, int N, double sqrt2TAU_BM, double L ) {
-//dist,XYZ,deltaPos,varPos are just pointers to external free memory 
+void BFstep_nl ( struct particle_nl *particles, struct boxcell *grid, gsl_rng *r, int nBoxes, double boxSize,
+                 double tau_bm, int N, double sqrt2TAU_BM, double L ) {
+//dist,XYZ,deltaPos,varPos are just pointers to external free memory
 //sqrtTAU_BM is sqrt(2*TAU_BM)
 //deltaPos is an array of the increments in the position
 //particles are in a box modeled with a soft core repulsion on the boundaries
@@ -39,13 +43,13 @@ void BFstep_nl ( particle_nl *particles, std::vector<std::vector<int>> *grid, gs
           if (kk==nBoxes) k=0; 
 
 
-          int nElem = (*grid)[i*nBoxes*nBoxes + j*nBoxes + k][0]; 
+          int nElem = grid[i*nBoxes*nBoxes + j*nBoxes + k].element[0];
           int jElem=0;
 
           while (jElem<nElem){
 
             jElem++;
-            jPart= (*grid)[i*nBoxes*nBoxes + j*nBoxes + k][jElem];
+            jPart= grid[i*nBoxes*nBoxes + j*nBoxes + k].element[jElem];
             if (iPart==jPart)
               continue;
 
@@ -65,9 +69,12 @@ void BFstep_nl ( particle_nl *particles, std::vector<std::vector<int>> *grid, gs
                   else if (varPos[2]<-L/2) varPos[2] += L;
 
               // The particles interact via a repulsive harmonic interaction
-              deltaPos[0] += K*particles[iPart].Diff * (varPos[0]/ R ) * (particles[iPart].radius+particles[jPart].radius - R) * tau_bm;
-              deltaPos[1] += K*particles[iPart].Diff * (varPos[1]/ R ) * (particles[iPart].radius+particles[jPart].radius - R) * tau_bm;
-              deltaPos[2] += K*particles[iPart].Diff * (varPos[2]/ R ) * (particles[iPart].radius+particles[jPart].radius - R) * tau_bm;
+              deltaPos[0] += K*particles[iPart].Diff * (varPos[0]/ R ) *
+                      (particles[iPart].radius+particles[jPart].radius - R) * tau_bm;
+              deltaPos[1] += K*particles[iPart].Diff * (varPos[1]/ R ) *
+                      (particles[iPart].radius+particles[jPart].radius - R) * tau_bm;
+              deltaPos[2] += K*particles[iPart].Diff * (varPos[2]/ R ) *
+                      (particles[iPart].radius+particles[jPart].radius - R) * tau_bm;
 
             }
           }
@@ -95,7 +102,7 @@ void BFstep_nl ( particle_nl *particles, std::vector<std::vector<int>> *grid, gs
 
 
 
-void BFupdate_nl ( particle_nl *particles, int N) {
+void BFupdate_nl ( struct particle_nl *particles, int N) {
 
 
   for ( int n=0; n<N; n++){
@@ -110,7 +117,8 @@ void BFupdate_nl ( particle_nl *particles, int N) {
 }
 
 
-void updateGridBM_nl ( particle_nl *particles, std::vector <std::vector<int>> *grid, int nBoxes, double boxSize, int N){
+
+void updateGridBM_nl ( struct particle_nl *particles, struct boxcell *grid, int nBoxes, double boxSize, int N){
 
 
   for ( int n=0; n<N; n++){
@@ -120,16 +128,15 @@ void updateGridBM_nl ( particle_nl *particles, std::vector <std::vector<int>> *g
     j = trunc (particles[n].pos[1]/boxSize);
     k = trunc (particles[n].pos[2]/boxSize);
 
-    int nElem = (*grid) [i*nBoxes*nBoxes + j*nBoxes +k][0];
+    int nElem = grid [i*nBoxes*nBoxes + j*nBoxes +k].element[0];
     int count = 0;
     while (count<nElem){
       count ++;
-      (*grid) [i*nBoxes*nBoxes + j*nBoxes +k][count]=-1;
+      grid [i*nBoxes*nBoxes + j*nBoxes +k].element[count]=-1;
     }
-    (*grid) [i*nBoxes*nBoxes + j*nBoxes +k][0]=0;
+    grid [i*nBoxes*nBoxes + j*nBoxes +k].element[0]=0;
 
   }
-
 
   for ( int n=0; n<N; n++){
 
@@ -138,8 +145,8 @@ void updateGridBM_nl ( particle_nl *particles, std::vector <std::vector<int>> *g
     j=trunc(particles[n].pos[1]/boxSize);
     k=trunc(particles[n].pos[2]/boxSize);
 
-    (*grid)[i*nBoxes*nBoxes + j*nBoxes +k][0]++;
-    (*grid)[i*nBoxes*nBoxes + j*nBoxes +k][(*grid)[i*nBoxes*nBoxes + j*nBoxes +k][0]]=n;
+    grid[i*nBoxes*nBoxes + j*nBoxes +k].element[0]++;
+    grid[i*nBoxes*nBoxes + j*nBoxes +k].element[grid[i*nBoxes*nBoxes + j*nBoxes +k].element[0]]=n;
 
   }
 

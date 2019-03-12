@@ -12,16 +12,14 @@ double drawTimeNewt ( double b, double D, double xi ) {
   double dS = Sder (t,b,D);
   int count = 0;
 
-  while ( abs(t-tmem) > DRAW_CONVERGENCE | abs(S-xi) > DRAW_CONVERGENCE ) {
+  while ( fabs(t-tmem) > DRAW_CONVERGENCE | fabs(S-xi) > DRAW_CONVERGENCE ) {
 
 
     count++;
     if (count > MAX_ITERATIONS){
-      std::cout << std::setprecision (15);
-      std::cout << "Error: finding the root of S was not possible for:" << std::endl;
-      std::cout << "b = " << b << "\t D = " << D << "\t xi = " << xi << std::endl;
+
       return t;
-      // exit (EXIT_FAILURE);
+
     }
 
     tmem = t;
@@ -32,9 +30,7 @@ double drawTimeNewt ( double b, double D, double xi ) {
     dS = Sder (t,b,D);
 
   }
-    // cout << count << "\t" << t << "\t" << 1-S << "\t" << dS << "\t" << (S-xi)/dS << endl;
-//  std::cout << t << std::endl;
-  // return count;
+
   return t;
     
 }
@@ -51,7 +47,8 @@ double drawPosNewt ( double t, double b, double D, double xi ) {
     double R0=2*sqrt(t0*b*b);
     double R1=0.646*b;
     double beta = (R0*exp(pow(t0,0.5)+pow(t1,0.5))-R1*exp(pow(t0,0.5)+pow(t1,0.5)))/(exp(pow(t0,0.5))-exp(pow(t1,0.5)));
-    double gamma = -(R0*(exp(pow(t1,0.5))-1)*exp(pow(t0,0.5))-R1*(exp(pow(t0,0.5))-1)*exp(pow(t1,0.5)))  / (exp(pow(t0,0.5))-exp(pow(t1,0.5)));
+    double gamma = -(R0*(exp(pow(t1,0.5))-1)*exp(pow(t0,0.5))-R1*(exp(pow(t0,0.5))-1)*exp(pow(t1,0.5)))
+                   / (exp(pow(t0,0.5))-exp(pow(t1,0.5)));
     r=beta*(1-exp(-pow(t*D/b/b,0.5)))+gamma;
   }
   else r = 0.646*b;
@@ -64,15 +61,10 @@ double drawPosNewt ( double t, double b, double D, double xi ) {
     double rMem=-1;
 
  
-    while ( abs(r-rMem) > DRAW_CONVERGENCE | abs(P-xi) > DRAW_CONVERGENCE ) {
+    while ( fabs(r-rMem) > DRAW_CONVERGENCE | fabs(P-xi) > DRAW_CONVERGENCE ) {
 
-      // cout << r << "\t" << P << "\t" << P-xi <<endl;
       count++;
       if (count > MAX_ITERATIONS){
-        std::cout << std::setprecision (15);
-        std::cout << "Error: finding the root of P was not possible for:" << std::endl;
-        std::cout << "t = " << t << "\tb = " << b << "\t D = " << D << "\t xi = " << xi << std::endl;
-        // exit (EXIT_FAILURE);
         return r;
       }
 
@@ -85,7 +77,6 @@ double drawPosNewt ( double t, double b, double D, double xi ) {
 
     }
 
-
-  // return count;    
   return r;
+
 }
