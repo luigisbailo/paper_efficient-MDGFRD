@@ -1,4 +1,8 @@
-void burst_P_aGF_nl ( particle_nl *particles, int *partList, double *distRow, int *distLabel, gsl_rng *r,  int N, double L ) {
+// author luigisbailo
+
+
+void burst_P_aGF_nl ( struct particle_nl *particles, int *partList, double *distRow, int *distLabel,
+                      gsl_rng *r,  int N, double L ) {
 
   double deltaPos [3]; 
   int iPart = partList[0];
@@ -18,9 +22,11 @@ void burst_P_aGF_nl ( particle_nl *particles, int *partList, double *distRow, in
 
 
       //The P function is not sampled at very small times, when the survival function S can be approximated to 1      
-      if (particles[iPart].time-particles[jPart].time> (particles[jPart].shell*particles[jPart].shell)/particles[jPart].Diff/1000){
+      if (particles[iPart].time-particles[jPart].time >
+              (particles[jPart].shell*particles[jPart].shell)/particles[jPart].Diff/1000){
 
-        polarTransf_nl ( deltaPos, drawPosNewt ( particles[iPart].time-particles[jPart].time,  particles[jPart].shell, particles[jPart].Diff, gsl_rng_uniform(r) ),
+        polarTransf_nl ( deltaPos, drawPosNewt ( particles[iPart].time-particles[jPart].time,
+                                                 particles[jPart].shell, particles[jPart].Diff, gsl_rng_uniform(r) ),
                      gsl_rng_uniform (r), gsl_rng_uniform (r) );
         //deltaPos now contains the displacements in cartesian coordinates
 
@@ -68,8 +74,10 @@ void burst_P_aGF_nl ( particle_nl *particles, int *partList, double *distRow, in
 
       }
 
-      // "distRow[]" is updated with the new distances, and whether there is a new closest distance to insert in distRow[0] is checked    
-      distRow [j] = sqrt(dist2_per_nl ( &particles[iPart], &particles[jPart], L )) - particles[iPart].radius - particles[jPart].radius;
+      // "distRow[]" is updated with the new distances,
+      // and whether there is a new closest distance to insert in distRow[0] is checked
+      distRow [j] = sqrt(dist2_per_nl ( &particles[iPart], &particles[jPart], L )) -
+              particles[iPart].radius - particles[jPart].radius;
       sortBurst_nl (jPart,partList,N);
 
     }
@@ -80,7 +88,8 @@ void burst_P_aGF_nl ( particle_nl *particles, int *partList, double *distRow, in
 }
 
 
-void burst_P_GF_nl ( particle_nl *particles, int *partList, double *distRow, int* distLabel, gsl_rng *r,  int N, double L ) {
+void burst_P_GF_nl ( struct particle_nl *particles, int *partList, double *distRow, int* distLabel,
+                     gsl_rng *r,  int N, double L ) {
 
 
   double deltaPos [3]; 
@@ -100,9 +109,11 @@ void burst_P_GF_nl ( particle_nl *particles, int *partList, double *distRow, int
       particles[jPart].gf = false;
 
       //The P function is not sampled at very small times, when the survival function S can be approximated to 1      
-      if (particles[iPart].time-particles[jPart].time> (particles[jPart].shell*particles[jPart].shell)/particles[jPart].Diff/1000){
+      if (particles[iPart].time-particles[jPart].time >
+              (particles[jPart].shell*particles[jPart].shell)/particles[jPart].Diff/1000){
       
-        polarTransf_nl ( deltaPos, drawPosNewt ( particles[iPart].time-particles[jPart].time,  particles[jPart].shell, particles[jPart].Diff, gsl_rng_uniform(r) ),
+        polarTransf_nl ( deltaPos, drawPosNewt ( particles[iPart].time-particles[jPart].time,  particles[jPart].shell,
+                                                 particles[jPart].Diff, gsl_rng_uniform(r) ),
                       gsl_rng_uniform (r), gsl_rng_uniform (r) );
         //deltaPos now contains the displacements in cartesian coordinates
         
@@ -143,7 +154,8 @@ void burst_P_GF_nl ( particle_nl *particles, int *partList, double *distRow, int
       }
 
       // "distRow[]" is updated with the new distances, and weather there is a new closest distance to insert in distRow[0] is checked    
-      distRow [j] = sqrt(dist2_per_nl ( &particles[iPart], &particles[jPart], L )) - particles[iPart].radius - particles[jPart].radius;
+      distRow [j] = sqrt(dist2_per_nl ( &particles[iPart], &particles[jPart], L ))
+                    - particles[iPart].radius - particles[jPart].radius;
       sortBurst_nl (jPart,partList,N);
     
     }

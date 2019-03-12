@@ -161,10 +161,10 @@ double min_element (double *arr, int init, int N){
 
 int compareTime (const void * part_A, const void * part_B)  {
 
-    double exit_A = ((struct particle*)part_A)->tau_exit;
-    double exit_B = ((struct particle*)part_B)->tau_exit;
-
-    return exit_A - exit_B;
+    double exit_A = 100*((struct particle*)part_A)->tau_exit;
+    double exit_B = 100*((struct particle*)part_B)->tau_exit;
+//  printf ("%lf\t%lf\t%d\n",exit_A,exit_B,(int)(exit_A-exit_B));
+    return (int)(exit_A - exit_B);
 
 }
 

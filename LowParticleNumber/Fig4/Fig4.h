@@ -3,8 +3,6 @@ void fig4 () {
 
 	clock_t start_tGF, end_tGF, total_tGF, start_tBM, end_tBM, total_tBM;
 
-	double tGF,tBM;
-
 	const gsl_rng_type *Type;
 	gsl_rng *r;
 	gsl_rng_env_setup ();
@@ -49,7 +47,7 @@ void fig4 () {
 
 				end_tGF = clock();
 
-				total_tGF = (double)(end_tGF - start_tGF) / CLOCKS_PER_SEC;
+				total_tGF = (double)(end_tGF - start_tGF) ;
 
 				start_tBM = clock();
 
@@ -80,7 +78,7 @@ void fig4 () {
 
 				end_tBM = clock();
 
-				total_tBM = (double)(end_tBM - start_tBM) / CLOCKS_PER_SEC;
+				total_tBM = (double)(end_tBM - start_tBM);
 
 
 

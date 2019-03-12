@@ -3,4 +3,4 @@
 #define S_CONVERGENCE 0.0001
 #define SDER_CONVERGENCE 0.0001
 #define DRAW_CONVERGENCE 0.001
-#define K 100
+#define K 50

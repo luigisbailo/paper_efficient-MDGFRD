@@ -21,8 +21,6 @@ void fig9 (double D_A, double D_B, double R_A, double R_B) {
     Tsim[3] = 4000;
     Tsim[4] = 5000;
 
-
-
 	int stat[3];
 	double diffStat [N];
 	double Diff_aGF [N][Nsamples][nT];
@@ -46,8 +44,6 @@ void fig9 (double D_A, double D_B, double R_A, double R_B) {
 				Diff_aGF [n][count][t] = diffStat[n];
 			}
 
-
-
 			for (int d=0; d<3; d++)
 				stat[d] = 0;
 			for ( int n=0; n<N; n++ )
@@ -59,8 +55,6 @@ void fig9 (double D_A, double D_B, double R_A, double R_B) {
 				Diff_GF1 [n][count][t] = diffStat[n];
 			}
 
-
-
 			for (int d=0; d<3; d++)
 				stat[d] = 0;
 			for ( int n=0; n<N; n++ )
@@ -71,8 +65,6 @@ void fig9 (double D_A, double D_B, double R_A, double R_B) {
 			for (int n=0; n<N; n++){
 				Diff_GF2 [n][count][t] = diffStat[n];
 			}
-
-
 
 			for (int d=0; d<3; d++)
 				stat[d] = 0;
@@ -117,7 +109,6 @@ void fig9 (double D_A, double D_B, double R_A, double R_B) {
 
 	}
 
-
 	double sdDiff_aGF [nT];
 	double sdDiff_GF1 [nT];
 	double sdDiff_GF2 [nT];
@@ -148,12 +139,9 @@ void fig9 (double D_A, double D_B, double R_A, double R_B) {
 
 	}
 
-
-
-
 	for ( int t=0; t<nT; t++){
 
-		printf ("%lf/t%lf/t%lf/t%lf/t%lf/t%lf/t%lf/t%lf/t%lf/n",
+		printf ("%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",
 				Tsim[t], avDiff_aGF[t], avDiff_GF1[t], avDiff_GF2[t],
 				avDiff_BM[t], sdDiff_aGF[t], sdDiff_GF1[t], sdDiff_GF2[t], sdDiff_BM[t]);
 

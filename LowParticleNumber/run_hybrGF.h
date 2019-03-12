@@ -1,7 +1,8 @@
 // author luigisbailo
 
 
-void run_aGF2 ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, double tau_bm, double alpha, double Tsim, double L, int *stat, double *diffStat ) {
+void run_hybGF ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, double tau_bm, double alpha,
+				 double Tsim, double L, int *stat, double *diffStat ) {
 
 
 	const gsl_rng_type *Type;
@@ -23,50 +24,49 @@ void run_aGF2 ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, doub
 
 	int N = N_A + N_B;
 
+	double distRow [N], maxSh;
+
 	struct particle particles [N];
-	double distRow [N];
- 	double shells [N];	
+	double shells [N];	
 	int partList [N];
-	double maxSh;
- 
-    initPos_aGF2 ( particles, r, N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, alpha, L ); 
 
-    initShell_aGF ( particles, r, N, tau_bm, sqrt2TAU_BM, L, &stat[1]);
+    initPos_hybGF ( particles, r, N_A, N_B, R_A, R_B, D_A, D_B, tau_bm, alpha, L); 
 
-	qsort ( particles, N, sizeof(struct particle), compareTime );
+    initShell_GF ( particles, r, N, tau_bm, sqrt2TAU_BM, L, &stat[1]);
+
+    //sort() is a prebuild c++ funct. It sorts particles for increasing exit times
 
     for (int n=0; n<N; n++) partList[n]=n;
+
+	qsort ( particles, N, sizeof(struct particle), compareTime );
 
     while ( particles[partList[0]].tau_exit < Tsim ) {
 
     	if ( particles[partList[0]].burst == true ) stat[0]++;
 
-		updatePart_aGF ( &particles[partList[0]], r, tau_bm, L );    
+		updatePart_GF ( &particles[partList[0]], r, tau_bm, L );
 
 		getDist ( particles, partList, distRow, &maxSh, N, L );
 
-		burst_P_aGF ( particles, partList, distRow, r, N, partList[0], L); 
+		burst_P_GF ( particles, partList, distRow, r, N, partList[0], L); 
 
-		//In case the max shell allowed is smaller than the smallest possible a BM integration step is performed
-		if ( maxSh > particles[partList[0]].R_bd)
-			R = getR_aGF ( particles, partList, shells, distRow, N, L );
-		else 
-			R = 0;
+		R = getR_GF ( particles, partList, shells, distRow, N, L );
+		//it returns zero in case the determined shell is smaller than the smallest possible
 
 		particles[partList[0]].burst = false;
 
-		if ( R > particles[partList[0]].R_bd ) {
+		if ( R > 0 ) {
 
-			stat[1]++;
+			stat [1] ++;
 			if (R>L/2) R=L/2;
-			GFstep_aGF ( &particles[partList[0]], r, R, L );
+			GFstep_GF ( &particles[partList[0]], r, R );
 			particles[partList[0]].gf = true;
 
 		}
-		else{
-
-			stat[2]++; 
-			BMstep ( particles, partList, distRow, r, tau_bm, sqrt2TAU_BM, N, L );
+		else{ 
+			
+			stat [2] ++;
+			BMstep ( particles, partList, distRow, r, tau_bm,  sqrt2TAU_BM, N, L );
 			particles[partList[0]].gf = false;
 		}
 
@@ -74,9 +74,10 @@ void run_aGF2 ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, doub
 
 		sortPart (particles,partList,N);
 
+
     } ;
 
-    synchPart_P_aGF ( particles, partList, r, N, Tsim, L );
+    synchPart_P_GF ( particles, partList, r, N, Tsim, L );
 
     for ( int n=0; n<N; n++ ){
 
@@ -85,7 +86,6 @@ void run_aGF2 ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, doub
     	diffStat[n] += pow(particles[n].pos[2]-particles[n].pos_init[2] + particles[n].pos_period[2]*L, 2);
 
     }
-
 
     gsl_rng_free (r);
 

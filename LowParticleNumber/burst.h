@@ -13,10 +13,6 @@ void burst_P_aGF ( struct particle *particles, int *partList, double *distRow, g
 
     if (  particles[jPart].gf == true  &&  distRow[j] - particles[jPart].shell < particles[iPart].burstR ) {
 
-        if (particles[jPart].shell < 0.1){
-            printf("error\n\n");
-            exit(0);
-        }
       particles[jPart].burst = true;  
       particles[jPart].gf = false;
 

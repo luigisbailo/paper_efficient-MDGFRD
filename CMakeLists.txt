@@ -5,24 +5,24 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(efficient_MDGFRD
         main.c
-        LowParticleNumber/Fig4/Fig4.hpp
-        LowParticleNumber/Fig9/Fig9.hpp
-        LowParticleNumber/bruteForce.hpp
-        LowParticleNumber/burst.hpp
-        LowParticleNumber/checks.hpp
-        LowParticleNumber/draw.hpp
-        LowParticleNumber/greensFunct.hpp
-        LowParticleNumber/init.hpp
-        LowParticleNumber/parameters.hpp
-        LowParticleNumber/print.hpp
-        LowParticleNumber/run_aGF1.hpp
-        LowParticleNumber/run_aGF2.hpp
-        LowParticleNumber/run_BM.hpp
-        LowParticleNumber/run_GF.hpp
-        LowParticleNumber/run_hybrGF.hpp
-        LowParticleNumber/shell.hpp
-        LowParticleNumber/step.hpp
-        LowParticleNumber/tools.hpp
+        LowParticleNumber/Fig4/Fig4.h
+        LowParticleNumber/Fig9/Fig9.h
+        LowParticleNumber/bruteForce.h
+        LowParticleNumber/burst.h
+        LowParticleNumber/checks.h
+        LowParticleNumber/draw.h
+        LowParticleNumber/greensFunct.h
+        LowParticleNumber/init.h
+        LowParticleNumber/parameters.h
+        LowParticleNumber/print.h
+        LowParticleNumber/run_aGF1.h
+        LowParticleNumber/run_aGF2.h
+        LowParticleNumber/run_BM.h
+        LowParticleNumber/run_GF.h
+        LowParticleNumber/run_hybrGF.h
+        LowParticleNumber/shell.h
+        LowParticleNumber/step.h
+        LowParticleNumber/tools.h
         )
 
 find_package(GSL REQUIRED)

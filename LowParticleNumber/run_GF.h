@@ -1,7 +1,8 @@
 // author luigisbailo
 
 
-void run_GF ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, double MU_BM, double MU_GF, double tau_bm, double alpha, double Tsim, double L, int *stat, double *diffStat ) {
+void run_GF ( int N_A, int N_B, int R_A, int R_B, double D_A, double D_B, double MU_BM, double MU_GF,
+			  double tau_bm, double alpha, double Tsim, double L, int *stat, double *diffStat ) {
 
 
 	const gsl_rng_type *Type;

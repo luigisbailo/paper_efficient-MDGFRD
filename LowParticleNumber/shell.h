@@ -112,10 +112,15 @@ double getR_GF ( struct particle *particles, int *particleList, double *shells, 
     else 
       shells[j] = Rshell;
 
+//  printf("%d\t%lf\n",j,shells[j]);
   }
 
-  return min_element( shells, 1, N);
+//  for (int j=0; j<N; j++){
+//    printf("%d\t%lf\n",j,shells[j]);
+//  }
+//  printf("%lf\n",min_element( shells, 1, N));
+//  printf("%lf\n",min_element( shells, 1, N ) );
+
+  return min_element( shells, 1, N );
 
 }
-
-
