@@ -1,4 +1,4 @@
-Codes to generate results in the following paper:
+Codes to generate the results shown in the following paper:
 
 # An efficient multi-scale Green's functions reaction diffusion dynamics scheme
 
